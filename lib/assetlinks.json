@@ -1,0 +1,13 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.gobbogtechnologies.miograuser",
+        "sha256_cert_fingerprints": [
+          "DD:8A:94:3C:61:76:4D:63:C1:AA:8A:DF:B7:21:73:DE:4A:62:46:3C",
+          "08:10:2A:3D:9B:7E:56:F8:46:D5:64:B4:1E:B3:93:5E:2D:3C:1A:59:64:22:F9:65:B9:74:89:4C:C2:88:AB:DA"
+        ]
+      }
+    }
+  ]
