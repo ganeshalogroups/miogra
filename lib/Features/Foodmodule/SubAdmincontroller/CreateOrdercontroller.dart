@@ -13,6 +13,7 @@ import 'package:testing/Meat/MeatOrderscreen/Meatcancelorderprocess.dart';
 import 'package:testing/PaymentGateway/Razorpay.dart';
 import 'package:testing/parcel/p_parcel_orders/parcel_cancelFinal_screen.dart';
 import 'package:testing/parcel/p_parcel_orders/parcel_cancel_process.dart';
+import 'package:testing/utils/Const/ApiConstvariables.dart';
 import 'package:testing/utils/Const/constValue.dart';
 import 'package:testing/utils/CustomColors/Customcolors.dart';
 import 'package:testing/utils/Toast/customtoastmessage.dart';
@@ -63,7 +64,8 @@ class Ordercontroller extends GetxController {
     required dynamic additionalInstructions,
     required dynamic platformFee,
     required context,
-    required amountForDistanceForDeliveryman
+    required amountForDistanceForDeliveryman,
+    required otherCharges
   }) async {
     try {
       iscreateOrderLoading(true);
@@ -93,6 +95,7 @@ class Ordercontroller extends GetxController {
           "packingCharges": packagingcharge,
           "platformFee": platformFee,
           "tips": tips,
+           "otherCharges": otherCharges,
           "payForDeliveryMan":amountForDistanceForDeliveryman
         },
         "ordersDetails": ordersDetails,
@@ -103,6 +106,7 @@ class Ordercontroller extends GetxController {
         "totalKms": totalKms,
         "baseKm": baseKm,
         "additionalInstructions": additionalInstructions,
+       
       };
 
       // Create the body for when no coupon is applied
@@ -129,6 +133,7 @@ class Ordercontroller extends GetxController {
           "tax": tax,
           "packingCharges": packagingcharge,
           "tips": tips,
+          "otherCharges": otherCharges,
           "payForDeliveryMan":amountForDistanceForDeliveryman
         },
         "ordersDetails": ordersDetails,
@@ -138,6 +143,7 @@ class Ordercontroller extends GetxController {
         "totalKms": totalKms,
         "baseKm": baseKm,
         "additionalInstructions": additionalInstructions,
+         
       };
 
       // Select the appropriate body based on isCouponApplied
@@ -154,7 +160,10 @@ class Ordercontroller extends GetxController {
       );
 
       print("Create order response ${response.statusCode}");
+      print("UserId ${UserId}");
       print("Create order $ordersDetails");
+print("$baseKm,  $discountAmount   $cartFoodamount  TIPS$tips");
+      print("AAAAA   ${bodyWithoutCoupon}");
 
 print("QWQWQWWQW   $selectedBody");
       if (response.statusCode == 200) {
@@ -207,11 +216,13 @@ print("QWQWQWWQW   $selectedBody");
 print("ASASA  ${response.statusCode}");
         Get.snackbar(
           'Failed',
-          '${result["message"] ?? "Something went wrong."}\nCart Food Amount: $cartFoodamount\nFinal Amount: $finalamount',
+          '${result["message"] ?? "Something went wrong."}',
+        //  '${result["message"] ?? "Something went wrong."}\nCart Food Amount: $cartFoodamount\nFinal Amount: $finalamount',
           backgroundColor: Customcolors.DECORATION_RED,
           titleText: const Text("Failed"),
           messageText: Text(
-            '${result["message"] ?? "Something went wrong."}\nCart Food Amount: $cartFoodamount\nFinal Amount: $finalamount',
+            '${result["message"] ?? "Something went wrong."}',
+         //   '${result["message"] ?? "Something went wrong."}\nCart Food Amount: $cartFoodamount\nFinal Amount: $finalamount',
             overflow: TextOverflow.ellipsis,
           ),
         );

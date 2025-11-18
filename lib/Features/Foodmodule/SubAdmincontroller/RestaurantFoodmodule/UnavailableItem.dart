@@ -147,25 +147,25 @@ class UnavailableItem extends StatelessWidget {
                           )
                         ],
                       ),
-                      const CustomSizedBox(height: 5),
-                      if (foodIndexvalue.foodDiscription?.toString().isNotEmpty == true &&
-                          foodIndexvalue.foodDiscription!.toString() != "null")
-                        ReadMoreText(
-                          (foodIndexvalue.foodDiscription!.toString()),
-                          style: CustomTextStyle.foodDescription,
-                          textAlign: TextAlign.justify,
-                          trimLines: 3,
-                          colorClickableText: Colors.blue,
-                          trimMode: TrimMode.Line,
-                          trimCollapsedText: 'See more',
-                          trimExpandedText: 'See less',
-                          moreStyle: CustomTextStyle.boldblack12,
-                          lessStyle: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Customcolors.darkpurple,
-                          ),
-                        ),
+                      // const CustomSizedBox(height: 5),
+                      // if (foodIndexvalue.foodDiscription?.toString().isNotEmpty == true &&
+                      //     foodIndexvalue.foodDiscription!.toString() != "null")
+                      //   ReadMoreText(
+                      //     (foodIndexvalue.foodDiscription!.toString()),
+                      //     style: CustomTextStyle.foodDescription,
+                      //     textAlign: TextAlign.justify,
+                      //     trimLines: 3,
+                      //     colorClickableText: Colors.blue,
+                      //     trimMode: TrimMode.Line,
+                      //     trimCollapsedText: 'See more',
+                      //     trimExpandedText: 'See less',
+                      //     moreStyle: CustomTextStyle.boldblack12,
+                      //     lessStyle: const TextStyle(
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.bold,
+                      //       color: Customcolors.darkpurple,
+                      //     ),
+                      //   ),
                       const SizedBox(height: 10),
 
                       /// Offer price block

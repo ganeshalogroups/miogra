@@ -43,6 +43,7 @@ class RegisterscreenController extends GetxController {
           }));
 
       print(response.statusCode);
+         print(response.body);
 
       if (response.statusCode == 200) {
         // var result = jsonDecode(response.body);
@@ -64,7 +65,7 @@ class RegisterscreenController extends GetxController {
         var ree = jsonDecode(response.body);
 
         AppUtils.showToast(ree['data']);
-
+print("Its An Error for register ");
         Logger log = Logger();
         log.w(ree);
 
@@ -80,7 +81,7 @@ class RegisterscreenController extends GetxController {
         print(response.body.toString());
       }
     } catch (e) {
-      print("Its An Catch Error - $e");
+      print("Its An Catch Error for register - $e");
     } finally {
       isdataLoading(false);
     }

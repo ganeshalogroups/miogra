@@ -21,15 +21,15 @@ bool paymentsheet=false;
   Widget build(BuildContext context) {
     return  Column(crossAxisAlignment: CrossAxisAlignment.start,
     children:  [
-     BillSummaryWidget(
-                basePrice:"₹300.00",
-                gst:"₹16.00",
-                packagingCharge:"₹10.00",
-                couponDiscount:"₹-125.00",
-                delivaryCharge:"₹10.00",
-                totalKm: "5",
-                grandTotal: "₹191.00"
-              ),10.toHeight,
+    //  BillSummaryWidget(
+    //             basePrice:"₹300.00",
+    //             gst:"₹16.00",
+    //             packagingCharge:"₹10.00",
+    //             couponDiscount:"₹-125.00",
+    //             delivaryCharge:"₹10.00",
+    //             totalKm: "5",
+    //             grandTotal: "₹191.00"
+    //           ),10.toHeight,
         MartAddDeliveryInstructions(
             onTapp: () => additionalinfoBottomSheet(context)),
         10.toHeight,

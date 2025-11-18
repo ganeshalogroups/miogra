@@ -854,7 +854,8 @@ dynamic calculatePrice(int index) {
                           ? double.parse(foodcart.selectedTipAmount.value): 0.0;
                             return BillSummaryWidget(
                               basePrice:"₹${foodcart.getbillfoodcart["data"]["totalFoodAmount"].toStringAsFixed(2)}",
-                              gst:"₹${foodcart.getbillfoodcart["data"]["totalGST"].toStringAsFixed(2)}",
+                              gstAndOtherCharges:"${(foodcart.getbillfoodcart["data"]["totalGST"] + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).toStringAsFixed(2)}",
+
                               packagingCharge:"₹${foodcart.getbillfoodcart["data"]["totalPackageCharges"].toStringAsFixed(2)}",
                               couponDiscount: coupountext() != '0.0'? "-${coupountext()}": coupountext(),
                               deliverytip: tipAmount,
@@ -873,7 +874,7 @@ dynamic calculatePrice(int index) {
 
                                       totcsamount =foodcart.getbillfoodcart["data"]["totalFoodAmount"] -  check;
 
-                                      return (totcsamount +foodcart.getbillfoodcart["data"]["totalPackageCharges"] +foodcart.getbillfoodcart["data"] ["platformFeeCharge"]+
+                                      return (totcsamount +foodcart.getbillfoodcart["data"]["totalPackageCharges"] +foodcart.getbillfoodcart["data"] ["platformFeeCharge"]+ foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]+
                                               foodcart.getbillfoodcart["data"]["deliveryCharges"] + foodcart.getbillfoodcart["data"]["totalGST"]+tipAmount).roundToDouble().toStringAsFixed(2);
                                     })() : (() {
                                       dynamic totcsamount;
@@ -884,9 +885,9 @@ dynamic calculatePrice(int index) {
                                       // Calculate the amount after subtracting the coupon amount
                                       totcsamount = totalAmount - couponAmount;
 
-                                      return (totcsamount +tipAmount+foodcart.getbillfoodcart["data"]["totalPackageCharges"] +foodcart.getbillfoodcart["data"] ["platformFeeCharge"]+
+                                      return (totcsamount +tipAmount+foodcart.getbillfoodcart["data"]["totalPackageCharges"] +foodcart.getbillfoodcart["data"] ["platformFeeCharge"]+ foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]+
                                               foodcart.getbillfoodcart["data"]["deliveryCharges"] +foodcart.getbillfoodcart["data"]["totalGST"]).roundToDouble().toStringAsFixed(2);
-                                    })()}": "₹${(foodcart.getbillfoodcart["data"]["totalAmount"]+tipAmount).roundToDouble().toStringAsFixed(2)}",
+                                    })()}": "₹${(foodcart.getbillfoodcart["data"]["totalAmount"]+tipAmount+ foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).roundToDouble().toStringAsFixed(2)}",
                             );
                           }
                         },
@@ -1646,7 +1647,9 @@ if (redirect.redirectLoadingDetails["data"] != null) {
                                                         baseKm: resGlobalKM,
                                                         additionalInstructions: instantdata.delInstruction,
                                                         packagingcharge: foodcart.getbillfoodcart["data"]["totalPackageCharges"], platformFee: foodcart.getbillfoodcart["data"] ["platformFeeCharge"],
-                                                          amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"])
+                                                          amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"],
+                                                          otherCharges:  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"],
+                                                          )
                                                     .then((value) {
                                                   Future.delayed(const Duration(seconds: 3),
                                                     () {
@@ -1685,7 +1688,8 @@ if (redirect.redirectLoadingDetails["data"] != null) {
                                                         baseKm: resGlobalKM,
                                                         additionalInstructions: instantdata.delInstruction,
                                                         packagingcharge: foodcart.getbillfoodcart["data"]["totalPackageCharges"],  platformFee: foodcart.getbillfoodcart["data"] ["platformFeeCharge"],
-                                                          amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"])
+                                                          amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"],
+                                                           otherCharges:  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"],)
                                                     .then((value) {
                                                   Future.delayed( const Duration(seconds: 3),
                                                     () {

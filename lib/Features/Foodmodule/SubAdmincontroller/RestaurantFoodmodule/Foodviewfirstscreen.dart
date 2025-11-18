@@ -381,6 +381,7 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
           return true;
         },
         child: Scaffold(
+          
           resizeToAvoidBottomInset: true,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
@@ -437,7 +438,8 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
                         : const SizedBox.shrink(),
                   ],
                 ),
-          backgroundColor: Customcolors.DECORATION_CONTAINERGREY,
+                backgroundColor: Colors.white,
+       //   backgroundColor: Customcolors.DECORATION_CONTAINERGREY,
           body: isInitialLoading
               ? const Viewrestaurantloader() // ✅ Full screen loader
               : SafeArea(
@@ -482,11 +484,11 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
                           SliverPersistentHeader(
                             delegate: _SearchBarDelegate(
                                 child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child:
+                                                              padding:
+                                   EdgeInsets.symmetric(horizontal: 15.w),
+                                                              child:
                                   searchfoodfield(context, productviewprovider),
-                            )),
+                                                            )),
                             pinned: true,
                             floating: true,
                           ),
@@ -931,7 +933,8 @@ var resCommission =  productviewprovider.restaurantDetails;
                   decoration: InputDecoration(
                     hintText:
                         'Search in ${productviewprovider.restaurantDetails?['name'].toString().capitalizeFirst.toString()}',
-                    hintStyle: const TextStyle(
+                    hintStyle: TextStyle(
+                      fontSize: 13.sp,
                       fontFamily: 'Poppins-Regular',
                       color: Customcolors.DECORATION_GREY,
                     ),

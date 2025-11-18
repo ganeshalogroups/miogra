@@ -1,4 +1,5 @@
 import 'package:app_links/app_links.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:testing/Features/Authscreen/AuthController/controllerForFavAdd.dart';
 import 'package:testing/Features/Authscreen/Splashscreen.dart';
 import 'package:testing/Features/Foodmodule/Data/cartprovider.dart';
@@ -12,6 +13,7 @@ import 'package:testing/Features/Homepage/homepage.dart';
 import 'package:testing/Features/OrderScreen/OrderScreenController/OrdersControllerPagination.dart';
 import 'package:testing/Features/OrderScreen/OrderScreenController/Orderviewscreen_notifyview..dart';
 import 'package:testing/Features/OrderScreen/OrderScreenController/trackOrderController.dart';
+import 'package:testing/InternetConnectivity/noInternetPage.dart';
 import 'package:testing/Mart/Cartscreen/Commoncartwidgets/Martadditionalinfo.dart';
 import 'package:testing/Mart/Common/MartButtonFunctionalites.dart';
 import 'package:testing/Mart/Homepage/MartHomepageController/MartcategorypaginationController.dart';
@@ -92,7 +94,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await MobileAds.instance.initialize();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -139,6 +141,29 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
+  // ⬇️ Create the network controller instance
+  final networkController = Get.put(NetworkConnectivity(), permanent: true);
+
+  // ⬇️ Listen for network connectivity changes
+  ever(networkController.isOnline, (isOnline) {
+    if (!isOnline) {
+      // Show No Internet screen when disconnected
+      Get.to(
+        () => const NoInternetPage(),
+        transition: Transition.fadeIn,
+        duration: const Duration(milliseconds: 400),
+      );
+    } else {
+      // Automatically go back when internet returns
+      if (Get.currentRoute == '/NoInternetPage') {
+        Get.back();
+      }
+    }
+  });
+
+
+  
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Initialize local notifications
       var initializationSettingsAndroid =
@@ -224,7 +249,7 @@ class _MyAppState extends State<MyApp> {
     //  Get.put(NetworkConnectivity(), permanent: true);
     Get.put(Foodcartcontroller());
     Get.put<TipsProvider>(TipsProvider());
-
+final networkController = Get.put(NetworkConnectivity());
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       child: Builder(
@@ -308,7 +333,8 @@ class _MyAppState extends State<MyApp> {
                     child: CupertinoActivityIndicator(
                         color: Customcolors.DECORATION_BLACK));
               },
-              child: GetMaterialApp(
+              child:Obx(() {
+            return GetMaterialApp(
                 key: navigatorKey,
                 builder: (BuildContext context, Widget? child) {
                   return MediaQuery(
@@ -331,9 +357,11 @@ class _MyAppState extends State<MyApp> {
                         modalBackgroundColor: Colors.white,
                         surfaceTintColor: Colors.white),
                     useMaterial3: true),
-               home: const SplashScreen(),
+               home:networkController.isOnline.value
+                  ? const SplashScreen() // 👈 Normal app start
+                  : const NoInternetPage(), // 👈 Show this if network is off
           // home: Orderprocess(),
-              ),
+              );  }  ),
             ),
           );
         },

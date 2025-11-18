@@ -107,7 +107,7 @@ class _TopBannerclassState extends State<TopBannerclass> {
         // Banner Swiper
         SizedBox(
           height: 90.h,
-        //  width: double.maxFinite,
+          width: 330.w,
           child: Swiper(
             controller: _controller,
             autoplay: true,
@@ -125,7 +125,8 @@ class _TopBannerclassState extends State<TopBannerclass> {
                     color: const Color.fromARGB(255, 238, 237, 237),
                     image: DecorationImage(
                       image: CachedNetworkImageProvider(
-                        "$globalImageUrlLink${widget.bannerlist[index]["imageUrl"]}",
+                       // "$globalImageUrlLink${widget.bannerlist[index]["imageUrl"]}",
+                        "$globalImageUrlLink${widget.bannerlist[index]["document"]["imageUrl"]}",
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -150,14 +151,14 @@ class _TopBannerclassState extends State<TopBannerclass> {
             bool isActive = _currentIndex == index;
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: 3),
-              width: 8,
-              height:8,
+              width: 8.h,
+              height:8.h,
               // width: isActive ? 10 : 6,
               // height: isActive ? 10 : 6,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isActive
-                    ?  Color(0xFF623089)
+                    ?  Customcolors.darkpinkColor
                     : Color.fromARGB(255, 208, 166, 216)
               ),
             );

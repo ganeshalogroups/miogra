@@ -120,7 +120,7 @@ class _CartBillwidgetState extends State<CartBillwidget> {
             } else {
               return BillSummaryWidget(
                 basePrice:"₹${meatcart.getbillmeatcart["data"]["totalMeatAmount"].toStringAsFixed(2)}",
-                gst:"₹${meatcart.getbillmeatcart["data"]["totalGST"].toStringAsFixed(2)}",
+                gstAndOtherCharges:"₹${meatcart.getbillmeatcart["data"]["totalGST"].toStringAsFixed(2)}",
                 packagingCharge:"₹${meatcart.getbillmeatcart["data"]["totalPackageCharges"].toStringAsFixed(2)}",
                 couponDiscount: coupountext() != '0.0'
                     ? "-${coupountext()}"

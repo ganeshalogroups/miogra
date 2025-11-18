@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:testing/Features/Foodmodule/SubAdmincontroller/RestaurantFoodmodule/Foodhomepage.dart';
 import 'package:testing/Features/Homepage/Profile_Orders/your_order.dart';
 import 'package:testing/Features/OrderScreen/OrdersTab.dart';
 import 'package:testing/utils/Buttons/CustomContainer.dart';
@@ -32,7 +33,8 @@ class _OrderCreatedDoneScreenState extends State<OrderCreatedDoneScreen> {
       canPop: false,
       onPopInvoked: (didPop) async{
            if (didPop) return;
-            // await ExitApp.homepop();
+           //  await ExitApp.homepop();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Foodscreen()));
       },
       child: Scaffold(
         body: SafeArea(

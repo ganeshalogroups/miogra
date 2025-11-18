@@ -411,7 +411,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:testing/Features/Foodmodule/SubAdmincontroller/RestaurantFoodmodule/Foodlist.dart';
-import 'package:testing/utils/Buttons/CustomTextstyle.dart';
+
 import 'package:testing/utils/Const/constImages.dart';
 import 'package:testing/utils/Const/constValue.dart';
 import 'package:testing/utils/CustomColors/Customcolors.dart';
@@ -429,8 +429,8 @@ class Productcategorylist extends StatelessWidget {
       itemCount: homepagedetails.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4, // 4 items per row
-        crossAxisSpacing: 12.w,
-        mainAxisSpacing: 12.h,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 12,
         childAspectRatio: 0.8, // adjust to make look balanced
       ),
       itemBuilder: (context, index) {
@@ -449,8 +449,9 @@ class Productcategorylist extends StatelessWidget {
             );
           },
           child: Container(
+        
             decoration: BoxDecoration(
-              color: Color.fromARGB(31, 206, 198, 198),
+              color:Color(0xFFF7F7F7),
               borderRadius: BorderRadius.circular(12.r),
               // boxShadow: [
               //   BoxShadow(
@@ -465,8 +466,8 @@ class Productcategorylist extends StatelessWidget {
               children: [
                 /// Circle Image inside container
                 Container(
-                  width: 60.w,
-                  height: 60.w,
+                  width: 45.w,
+                  height: 45.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.grey[200],
@@ -475,16 +476,16 @@ class Productcategorylist extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl:
                           "$globalImageUrlLink${homepagedetails[index]["hashtagImage"].toString()}",
-                      fit: BoxFit.cover,
+                  //   fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          Image.asset(fastxdummyImg, fit: BoxFit.cover),
+                          Image.asset(fastxdummyImg, ),
                       errorWidget: (context, url, error) =>
                           Image.asset(fastxdummyImg, fit: BoxFit.cover),
                     ),
                   ),
                 ),
 
-                SizedBox(height: 6.h),
+                SizedBox(height: 2.h),
 
                 /// Text below
                 Padding(
@@ -497,10 +498,11 @@ class Productcategorylist extends StatelessWidget {
                     textAlign: TextAlign.center,
                   //  style: CustomTextStyle.addressfetch,
                   style:  TextStyle(
-      fontSize: 10,
-      fontWeight: FontWeight.w300,
-      color: Customcolors.DECORATION_BLACK,
-      fontFamily: 'Poppins-Medium'),
+      fontSize: 11.sp,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+      fontFamily: 'Poppins-Medium'
+      ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

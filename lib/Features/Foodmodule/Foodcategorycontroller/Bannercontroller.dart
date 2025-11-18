@@ -115,6 +115,8 @@ class Bannerlistcontroller extends GetxController {
 class HomepageProvider with ChangeNotifier {
   bool loading = false;
   bool get isLoading => loading;
+List topBanners =[];
+List  bottomBanners =[];
 
   dynamic orderModel;
 
@@ -136,13 +138,17 @@ class HomepageProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         print(
-          //  "${API.bannergetfastx}?userType=consumer&productType=restaurant&bannerType=top&limitSearch=20&productCateId=$productCateId&status=true&userId=$UserId&latitude=$initiallat&longitude=$initiallong&subAdminType=restaurant");
-            "${API.bannergetfastx}?userType=consumer&productType=restaurant&bannerType=top&limitSearch=20&productCateId=$productCateId&status=true&userId=$UserId&latitude=$initiallat&longitude=$initiallong&subAdminType=restaurant&productTypeToFilter=shop");
+         
+            "${API.bannergetfastx}?userType=consumer&productType=restaurant&bannerType=top&limitSearch=20&productCateId=$productCateId&status=true&userId=$UserId&latitude=$initiallat&longitude=$initiallong&subAdminType=restaurant&productTypeToFilter=$categoryFilter");
+        
         print("SSSSUUUUUUSSSSSEEEESSSS");
 
         var result = jsonDecode(response.body);
         orderModel = result['data'];
         print("AAAAAAAAAA$orderModel");
+         print(
+        
+            "${API.bannergetfastx}?userType=consumer&productType=restaurant&bannerType=top&limitSearch=20&productCateId=$productCateId&status=true&userId=$UserId&latitude=$initiallat&longitude=$initiallong&subAdminType=restaurant&productTypeToFilter=$categoryFilter");
       } else {
         orderModel = null;
         print(
@@ -158,9 +164,70 @@ class HomepageProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+
+
+
+
+
+
+Future<void> getBanner({
+    
+    String categoryFilter=""
+    
+    }) async {
+    // loading = true;
+    // notifyListeners();
+
+    try {
+      var response = await http.post(
+        Uri.parse(
+            API.banner),
+        headers: API().headers,
+        body: jsonEncode({
+          
+    "lat": initiallat,
+    "lng": initiallong,
+    "productTypeToFilter": categoryFilter,
+  
+
+        })
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+       var decodedData = jsonDecode(response.body);
+List list = decodedData["data"]["data"];
+
+print("BANNER RESPONSE   $list");
+
+
+
+
+ topBanners =
+    list.where((e) => e['document']['bannerType'] == 'top').toList();
+
+ bottomBanners =
+    list.where((e) => e['document']['bannerType'] == 'bottom').toList();
+
+
+      }
+      else{
+     
+      }
+    
 }
+catch(e){
 
+  print("CATCH ERROR BANNER     $e");}
+// finally {
+//       loading = false;
+//       notifyListeners();
+//     }
 
+    }
+}
+      
 
 // class NumProvider with ChangeNotifier {
 //   int selectedIndex = 0;

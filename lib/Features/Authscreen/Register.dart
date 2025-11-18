@@ -41,8 +41,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   RegisterscreenController registerscreenController =Get.put(RegisterscreenController());
   final formkey = GlobalKey<FormState>();
    bool isLoading = false;
+bool isChecked = false;
+  bool showError = false;
 
-
+  void _submit() {
+    setState(() {
+      showError = !isChecked; // show error if not checked
+    });
+  }
 
 
 
@@ -527,7 +533,42 @@ void initState() {
                             ),
                           ),
                         ),
-                  CustomSizedBox(
+                 
+
+                  // Align(alignment: Alignment.bottomLeft,
+                  //   child: Checkbox(
+                  //   value: isChecked,
+                  //   activeColor: Colors.deepPurple,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       isChecked = value!;
+                  //       showError = false; // remove error when checked
+                  //     });
+                  //   },
+                  //                   ),
+                  // ),
+    Row(
+              children: [
+                Checkbox(
+                  value: isChecked,
+                  activeColor: Colors.deepPurple,
+                  onChanged: (value) {
+                    setState(() {
+                      isChecked = value!;
+                      showError = false; // remove error when checked
+                    });
+                  },
+                ),
+                const Expanded(
+                  child: Text(
+                    "I agree to the Terms & Conditions",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+
+                 CustomSizedBox(
                     height: 30.h,
                   ),
                   Center(
@@ -536,9 +577,20 @@ void initState() {
                                  width: MediaQuery.of(context).size.width * 0.9,
                                 onPressed: () {
                               
-                                 if (formkey.currentState!.validate()) {
+                                 if (formkey.currentState!.validate() ) {
+                                   if (!isChecked) {
+                                    print("NO SUBMIT");  
+                // ✅ Checkbox not checked
+                setState(() {
+                  showError = true;
+                });
+                return;
+              }
+ print("SUBMIT");    
+           
                               setState(() {
                                       isLoading = true;
+                                      showError = false;
                                     });
                                     Future.delayed(const Duration(seconds: 2), () {
                                       setState(() {
@@ -547,8 +599,8 @@ void initState() {
                    
                                       
                                     }).whenComplete((){
-                                      
-                              
+                               
+                               _submit();
 
                                       registerscreenController.registerapi(
                                           mobileNo: mobileNumber.text.removeAllWhitespace,
@@ -569,6 +621,7 @@ void initState() {
                                 // Navigator.push(context, MaterialPageRoute( builder: (_) => HomeScreenPage()));
                               
                           }
+                           
                               
                                 },
                                 borderRadius: BorderRadius.circular(20),

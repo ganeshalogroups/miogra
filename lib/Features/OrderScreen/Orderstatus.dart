@@ -766,7 +766,7 @@ class _OrderstatusState extends State<Orderstatus> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Bill Summary',
+                        'Order Summary',
                         style: CustomTextStyle.orderdetailstext,
                       ),
                       const SizedBox(height: 10),
@@ -819,7 +819,7 @@ class _OrderstatusState extends State<Orderstatus> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const InkWell(
+                           InkWell(
                             child: Text(
                               'Item Total',
                               style: CustomTextStyle.carttblack,
@@ -835,12 +835,12 @@ class _OrderstatusState extends State<Orderstatus> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Padding(
+                           Padding(
                             padding: EdgeInsets.only(
                                 right:
                                     16), // Adjust the right padding as needed
                             child: Text(
-                              'GST',
+                              'GST and Other Charges',
                               style: CustomTextStyle.carttblack,
                             ),
                           ),
@@ -868,7 +868,7 @@ class _OrderstatusState extends State<Orderstatus> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                         Text(
                             'Packaging Charge',
                             style: CustomTextStyle.carttblack,
                           ),
@@ -882,7 +882,7 @@ class _OrderstatusState extends State<Orderstatus> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Padding(
+                           Padding(
                             padding: EdgeInsets.only(
                                 right:
                                     16), // Adjust the right padding as needed
@@ -896,17 +896,18 @@ class _OrderstatusState extends State<Orderstatus> {
                                   "₹ ${widget.platformfee.toStringAsFixed(2)}",
                                   style: CustomTextStyle.carttblack,
                                 )
-                              : const Text(
+                              :  Text(
                                   "₹ 0.00",
                                   style: CustomTextStyle.carttblack,
                                 ),
                         ],
                       ),
                       const SizedBox(height: 10),
+                      if(widget.deliverytip!=0.0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Padding(
+                           Padding(
                             padding: EdgeInsets.only(
                                 right:
                                     16), // Adjust the right padding as needed
@@ -920,17 +921,19 @@ class _OrderstatusState extends State<Orderstatus> {
                                   "₹ ${widget.deliverytip.toStringAsFixed(2)}",
                                   style: CustomTextStyle.carttblack,
                                 )
-                              : const Text(
+                              :  Text(
                                   "₹ 0.00",
                                   style: CustomTextStyle.carttblack,
                                 ),
                         ],
                       ),
+                        if(widget.deliverytip!=0.0)
                       const SizedBox(height: 10),
+                      if(widget.couponDiscount!=0.0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                           Text(
                             'Coupon Discount',
                             style: CustomTextStyle.carttblack,
                           ),
@@ -943,6 +946,7 @@ class _OrderstatusState extends State<Orderstatus> {
                           )
                         ],
                       ),
+                    //   if(widget.couponDiscount!=0.0)
                       20.toHeight,
                       CustomPaint(
                         size: Size(MediaQuery.of(context).size.width / 1,
@@ -952,7 +956,7 @@ class _OrderstatusState extends State<Orderstatus> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                         Text(
                             'Grand Total',
                             style: CustomTextStyle.carttblack,
                           ),

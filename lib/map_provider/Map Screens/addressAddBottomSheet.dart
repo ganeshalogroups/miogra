@@ -105,7 +105,7 @@ bool isAddressTypeError = false;
     WidgetsBinding.instance.addObserver(this);
 
     localitytextFieldController = TextEditingController(text: widget.locality.toString() == "null"  ? "No data"   : widget.locality.toString());
-    Get.put(HomeadresskeyController().gethomeadresskeyDetails());
+    HomeadresskeyController().gethomeadresskeyDetails();
     // setState(() {
     //   if (widget.addressType == 'Home') {
     //     _selectedValue = 0;
@@ -255,6 +255,7 @@ Widget radioButtons() {
             return GestureDetector(
               onTap: () {
                 if (isHomeDisabled) {
+                  print("HOME   $isHomeDisabled");
                   AppUtils.showToast('You have already added Home');
                 } else if (isWorkDisabled) {
                   AppUtils.showToast('You have already added Work');

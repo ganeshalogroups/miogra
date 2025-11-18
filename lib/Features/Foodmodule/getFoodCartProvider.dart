@@ -231,13 +231,16 @@ print("No data in getfoodcartProvider");
         'https://maps.googleapis.com/maps/api/directions/json?origin=$initiallat,$initiallong&destination=$destLat,$destLng&mode=driving&key=$kGoogleApiKey');
 
     final response = await http.get(url);
-
+print("${"https://maps.googleapis.com/maps/api/directions/json?origin=$initiallat,$initiallong&destination=$destLat,$destLng&mode=driving&key=$kGoogleApiKey"}");
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-
+print(" RESPONSE $data");
       var totaldist = processDirectionsResponse(data);
 
-      totaldist = double.parse(totalDis.split(' ').first.toString());
+       totaldist = double.parse(totalDis.split(' ').first.toString());
+//       String distanceString = totalDis.split(' ').first.trim();
+// totaldist = double.tryParse(distanceString) ?? 0.0;
+
       notifyListeners();
 
       return totaldist;

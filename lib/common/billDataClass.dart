@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:testing/Meat/MeatButtonFunctionalities/MeatAddproductController.dart/AddmeatController.dart';
 import 'package:testing/Meat/MeatOrderscreen/MeatPaymentBottomsheet.dart';
 import 'package:testing/Meat/MeatOrderscreen/meatadditionalinfo.dart';
@@ -32,13 +33,28 @@ class BillData extends StatelessWidget {
       children: [
         Text(
           content,
-          style: CustomTextStyle.carttblack,
+           style: TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Poppins-Medium',
+            ) 
         ),
         Text(
           value,
           style: isDiscount
-              ? CustomTextStyle.billmeatcoupontext
-              : CustomTextStyle.carttblack,
+              ?  TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.green,
+    fontFamily: 'Poppins-Medium',
+            ) 
+              :  TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Poppins-Medium',
+            ) 
         ),
       ],
     );
@@ -72,7 +88,7 @@ class BillSummaryWidget extends StatelessWidget {
  // dynamic amountForDistanceForDeliveryman;
   dynamic basePrice;
   dynamic delivaryCharge;
-  dynamic gst;
+  dynamic gstAndOtherCharges;
   dynamic couponDiscount;
   dynamic grandTotal;
   dynamic totalKm;
@@ -85,7 +101,7 @@ class BillSummaryWidget extends StatelessWidget {
    
     required this.basePrice,
     required this.delivaryCharge,
-    required this.gst,
+    required this.gstAndOtherCharges,
     required this.couponDiscount,
     required this.grandTotal,
     required this.totalKm,
@@ -132,7 +148,12 @@ String getFormattedTotalKm() {
         decoration: BoxDecorationsFun.whiteCircelRadiusDecoration(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           10.toHeight,
-          const Text('Bill Summary', style: CustomTextStyle.seemore10),
+         Text('Order Summary', style: TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Poppins-Medium',
+            )  ),
           10.toHeight,
           BillData(content: 'Item Total', value: basePrice),
           10.toHeight,
@@ -152,18 +173,22 @@ String getFormattedTotalKm() {
           10.toHeight,
           BillData(content: 'Packaging Charge', value: packagingCharge),
           10.toHeight,
-          BillData(content: 'GST', value: gst),
+          BillData(content: 'GST and Other Charges', value: gstAndOtherCharges),
           10.toHeight,
-           BillData(content: 'Platform Fee', value: '₹${platfomfee}'),
+           BillData(content: 'Platform Fee', value: '${platfomfee}'),
             10.toHeight,
               // BillData(content: 'Delivery Tip', value: deliverytip),
-            if (deliverytip != null )
-            BillData(content: 'Delivery Tip', value: '₹${deliverytip.toStringAsFixed(2)}'),
+           // if (deliverytip != null )
+            if ( deliverytip != 0.0 )
+            BillData(content: 'Delivery Tip', value: '${deliverytip.toStringAsFixed(2)}'),
+              if ( deliverytip != 0.0  )
             10.toHeight,
+              if ( couponDiscount != "0.0"  )
           BillData(
               content: 'Coupon Discount',
               value: '$couponDiscount',
               isDiscount: true),
+                if ( couponDiscount != "0.0" )
           20.toHeight,
           DotLine(),
           BillData(content: 'Grand Total', value: grandTotal),

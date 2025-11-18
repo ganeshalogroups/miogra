@@ -3,21 +3,15 @@
 import 'package:testing/utils/Const/ApiConstvariables.dart';
 
 class API {
- // static String baseUrl = 'https://www.thefastx.com/';
+ 
+   static String baseUrl = "https://dev.miogra.com/";
+   static String microservicedev = "https://dev.miogra.com/";
 
-   //static String baseUrl = "https://dev.thefastx.com/";
-   static String baseUrl = "https://miogra.com/";
+   
+  //  static String baseUrl = "https://miogra.com/";
+  //  static String microservicedev = "https://miogra.com/";
 
-  //>>Dev Url
-   //static String microservicedev = "http://ec2-13-235-210-10.ap-south-1.compute.amazonaws.com:3000/";
-   static String microservicedev = "https://miogra.com/";
-   //static String microservicedev = "http://ffastx.ddns.net/";
-  // static String microservicedev = "https://dev.thefastx.com/";
-
-  //>>Live Url
- //static String microservicedev = "https://api.thefastx.com/";
-
-  //microservicedev auth Api
+   
 static String vendorbasedcash ="${microservicedev}api/user/adminUser/finduserById";
   static String loginfastx = '${microservicedev}api/user/requestOtp';
   static String otpverifyfastx = '${microservicedev}api/user/verifyOtp';
@@ -46,7 +40,7 @@ static String vendorbasedcash ="${microservicedev}api/user/adminUser/finduserByI
   //microservicedev Banner,recent/popular Search
   static String bannergetfastx =
       '${microservicedev}api/utility/banner/mobileAppBanner';
-
+   static String banner = '${microservicedev}api/sense/bannerMigrate/getBannerList';
   static String bannerParcelfastx = '${microservicedev}api/utility/banner';
   static String bottombanner = '${microservicedev}api/utility/banner';
   static String createrecentsearchfastx =
@@ -86,6 +80,7 @@ static String vendorbasedcash ="${microservicedev}api/user/adminUser/finduserByI
   //Add food to cart
   static String addfoodfastx = '${microservicedev}api/food/foodCart';
   static String updatefoodfastx = '${microservicedev}api/food/foodCart/update';
+  static String getrestaurantCommission = '${microservicedev}api/user/';
 
   // get resturant by Id
   static String getResturantDetailsById =

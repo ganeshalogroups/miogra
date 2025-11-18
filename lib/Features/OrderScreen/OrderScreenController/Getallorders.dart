@@ -181,7 +181,7 @@ class _GetallorderlistTabState extends State<GetallorderlistTab> {
                       deliverytip: orders['amountDetails']['tips'],
                       rejectedreason: orders['rejectedNote'],
                       grandtotal: orders['amountDetails']['finalAmount'],
-                      gst: orders['amountDetails']['tax'],
+                      gst: (orders['amountDetails']['tax']+orders['amountDetails']['otherCharges']),
                       itemTotal: orders['amountDetails']
                           ['cartFoodAmountWithoutCoupon'],
                       orderDate: formatedDate,
@@ -279,53 +279,109 @@ class _GetallorderlistTabState extends State<GetallorderlistTab> {
                                 20), // Adjust size here
                             painter: DottedLinePainter(),
                           ),
-                          ListView.builder(
-                            itemCount: orders['ordersDetails'].length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 6),
-                                    child: SizedBox(
-                                      width: 260,
-                                      child: Text(
-                                        "${orders['ordersDetails'][index]['quantity']} X ${orders['ordersDetails'][index]['foodName'].toString().capitalizeFirst.toString()}",
-                                        style: CustomTextStyle.noboldblack,
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ),
-                                  ),
-                                   if (!(countdownValue > 0 &&
-                                  orders['orderStatus'] == "initiated"))
-                                  orders['orderStatus'] == "new" ||
-                                        orders['orderStatus'] ==
-                                            "orderAssigned" ||
-                                        orders['orderStatus'] ==
-                                            "orderPickedUped" ||
-                                        orders['orderStatus'] ==
-                                            "deliverymanReachedDoor" ||
-                                        orders['orderStatus'] == "initiated"?
-                                 InkWell(
-                                  onTap: () async{
-                                    final Uri url = Uri.parse('tel: ${ orders["adminDetails"]["mobileNo"]}');
-if(await canLaunchUrl(url)){
-  await launchUrl(url);
-}else{
-  throw "Could not lanch $url";
-}
-
-                              print( orders["adminDetails"]["mobileNo"]);
-                                  },
+                          // ListView.builder(
+                          //   itemCount: orders['ordersDetails'].length,
+                          //   shrinkWrap: true,
+                          //   physics: const NeverScrollableScrollPhysics(),
+                          //   itemBuilder: (context, index) {
+                          //     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       children: [
+                          //         Padding(
+                          //           padding: const EdgeInsets.symmetric(
+                          //               horizontal: 8, vertical: 6),
+                          //           child: SizedBox(
+                          //             width: 260,
+                          //             child: Text(
+                          //               "${orders['ordersDetails'][index]['quantity']} X ${orders['ordersDetails'][index]['foodName'].toString().capitalizeFirst.toString()}",
+                          //               style: CustomTextStyle.noboldblack,
+                          //               overflow: TextOverflow.clip,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //                                    if (!(countdownValue > 0 &&
+                          //                                   orders['orderStatus'] == "initiated"))
+                          //                                   orders['orderStatus'] == "new" ||
+                          //                                         orders['orderStatus'] ==
+                          //                                             "orderAssigned" ||
+                          //                                         orders['orderStatus'] ==
+                          //                                             "orderPickedUped" ||
+                          //                                         orders['orderStatus'] ==
+                          //                                             "deliverymanReachedDoor" ||
+                          //                                         orders['orderStatus'] == "initiated"?
+                          //                                  InkWell(
+                          //                                   onTap: () async{
+                          //                                     final Uri url = Uri.parse('tel: ${ orders["adminDetails"]["mobileNo"]}');
+                          // if(await canLaunchUrl(url)){
+                          //   await launchUrl(url);
+                          // }else{
+                          //   throw "Could not lanch $url";
+                          // }
+                          
+                          //                               print( orders["adminDetails"]["mobileNo"]);
+                          //                                   },
                                   
-                                  child: Image.asset("assets/images/Fill call.png",height: 20.h,color: const Color.fromARGB(255, 101, 2, 138),))
-                              :SizedBox.shrink()  ],
-                              );
-                            },
-                          ),
+                          //                                   child: Image.asset("assets/images/Fill call.png",height: 20.h,color: const Color.fromARGB(255, 101, 2, 138),))
+                          //                               :SizedBox.shrink()  ],
+                          //       );
+                          //   },
+                          // ),
+
+                          Row(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    // ✅ Left: ListView
+    Expanded(
+      child: ListView.builder(
+        itemCount: orders['ordersDetails'].length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            child: Text(
+              "${orders['ordersDetails'][index]['quantity']} X "
+              "${orders['ordersDetails'][index]['foodName'].toString().capitalizeFirst}",
+              style: CustomTextStyle.noboldblack,
+              overflow: TextOverflow.clip,
+            ),
+          );
+        },
+      ),
+    ),
+
+    // ✅ Right: Single call icon (outside itemBuilder)
+    if (!(countdownValue > 0 && orders['orderStatus'] == "initiated"))
+      if (orders['orderStatus'] == "new" ||
+          orders['orderStatus'] == "orderAssigned" ||
+          orders['orderStatus'] == "orderPickedUped" ||
+          orders['orderStatus'] == "deliverymanReachedDoor" ||
+          orders['orderStatus'] == "initiated")
+        InkWell(
+          onTap: () async {
+            final Uri url = Uri.parse('tel:${orders["adminDetails"]["mobileNo"]}');
+            if (await canLaunchUrl(url)) {
+              await launchUrl(url);
+            } else {
+              throw "Could not launch $url";
+            }
+            print(orders["adminDetails"]["mobileNo"]);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0, top: 6),
+            child: Image.asset(
+              "assets/images/Fill call.png",
+              height: 22.h,
+              color: Color.fromARGB(255, 101, 2, 138),
+            ),
+          ),
+        ),
+  ],
+),
+
+
+
+
                         //  const SizedBox(height: 0),
                           CustomPaint(
                             size: Size(MediaQuery.of(context).size.width / 1,
@@ -416,11 +472,12 @@ if(await canLaunchUrl(url)){
                                           );
                                         },
                                         child: CustomContainer(
+                                          //height: ,
                                           decoration: CustomContainerDecoration
                                               .gradientbuttondecoration(),
-                                          child: const Padding(
+                                          child: Padding(
                                             padding: EdgeInsets.symmetric(
-                                                vertical: 3, horizontal: 20),
+                                                vertical: 7.h, horizontal: 20.w),
                                             child: Center(
                                               child: Text(
                                                 "Track Order",
@@ -458,12 +515,12 @@ if(await canLaunchUrl(url)){
                                       width: 180,
                                       decoration: CustomContainerDecoration
                                           .reddecoration(),
-                                      child: const Padding(
+                                      child:  Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 8, horizontal: 20),
                                         child: Center(
                                           child: Text(
-                                            "Cancel Order",
+                                            "Cancel Order ($countdownValue)",
                                             style: CustomTextStyle.white12text,
                                           ),
                                         ),

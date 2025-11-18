@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, must_be_immutable, file_names
 
 import 'package:testing/Features/Foodmodule/SubAdmincontroller/RestaurantFoodmodule/Foodlistdesign.dart';
+import 'package:testing/inlinebannerad.dart';
 import 'package:testing/utils/Buttons/CustomTextstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,6 +65,7 @@ class FoodViewPagedList extends StatelessWidget {
             );
           },
         ),
+        InlineBannerAdWidget()
       ],
     );
   }

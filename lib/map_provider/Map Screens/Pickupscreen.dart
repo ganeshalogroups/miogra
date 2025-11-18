@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, unnecessary_null_comparison, prefer_typing_uninitialized_variables, file_names, prefer_is_empty
 import 'dart:convert';
+import 'package:testing/Features/Foodmodule/SubAdmincontroller/Getnearbyrescontroller.dart';
 import 'package:testing/Features/Foodmodule/SubAdmincontroller/RestaurantFoodmodule/Foodhomepage.dart';
 import 'package:testing/Features/Foodmodule/getFoodCartProvider.dart';
 import 'package:testing/map_provider/Map%20Screens/MapSearch.dart/addressnameController.dart';
@@ -67,7 +68,7 @@ class _LocationpickupscreenState extends State<Locationpickupscreen> with Automa
   bool isWithinCircle = true; // Track if the camera is within the circle
 
   TextEditingController searchController = TextEditingController();
-
+ Nearbyrescontroller nearbyreget = Get.put(Nearbyrescontroller());
 
 
   @override
@@ -517,9 +518,20 @@ class _LocationpickupscreenState extends State<Locationpickupscreen> with Automa
                                          locationProvider.updateMarker(latitude: locationProvider.position.latitude,longitude: locationProvider.position.longitude );
                                         
                               foodcartprovider.getfoodcartProvider(km: '5');
+                              print("ASASASA");
                             // Get.off(const Foodscreen(fromPickupscreen: true,),transition: Transition.leftToRight);
                                if(widget.isfrommanualsearchaddress){
-                            //  Get.off(const HomeScreenPage());
+                             // Get.off(const HomeScreenPage());
+                             
+Navigator.push(
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>  
+     Foodscreen(
+                                                                      categoryFilter: nearbyreget.selectedIndex.value ==
+                                                                              0
+                                                                          ? "restaurant"
+                                                                          : "shop"),));
                               }else{
                             Get.off(const Foodscreen(fromPickupscreen: true,),transition: Transition.leftToRight);}
                                 

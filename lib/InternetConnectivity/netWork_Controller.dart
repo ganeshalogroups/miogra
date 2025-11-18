@@ -39,3 +39,71 @@
 
 
 // }
+
+
+
+// import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:get/get.dart';
+
+// class NetworkController extends GetxController {
+//   var isOnline = true.obs;
+
+//   @override
+//   void onInit() {
+//     super.onInit();
+
+//     // Check current status once at startup
+//     checkConnection();
+
+//     // Listen for real-time connection updates
+//     Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
+//       // "result" is now a list in latest versions
+//       if (result.contains(ConnectivityResult.none)) {
+//         isOnline.value = false;
+//       } else {
+//         isOnline.value = true;
+//       }
+//     });
+//   }
+
+//   Future<void> checkConnection() async {
+//     final List<ConnectivityResult> result = await Connectivity().checkConnectivity();
+//     if (result.contains(ConnectivityResult.none)) {
+//       isOnline.value = false;
+//     } else {
+//       isOnline.value = true;
+//     }
+//   }
+// }
+
+
+
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:get/get.dart';
+
+class NetworkConnectivity extends GetxController {
+  final Connectivity _connectivity = Connectivity();
+  RxBool isOnline = true.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _checkInitialConnection();
+    _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  Future<void> _checkInitialConnection() async {
+    final result = await _connectivity.checkConnectivity();
+    _updateConnectionStatus(result);
+  }
+
+  void _updateConnectionStatus(List<ConnectivityResult> result) {
+    if (result.contains(ConnectivityResult.none)) {
+      isOnline.value = false;
+    } else {
+      isOnline.value = true;
+    }
+  }
+}
+

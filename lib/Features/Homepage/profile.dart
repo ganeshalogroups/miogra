@@ -762,7 +762,7 @@ launchWhatsApp(redirectLoadingDetail) async {
 
 void launchwebUrl(BuildContext context, String url) async {
   try {
-    print("privacyurllll${url}");
+    print("privacyurllll  ${url}");
     await canLaunch(url);
     await launch(url);
   } catch (e) {

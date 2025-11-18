@@ -24,6 +24,7 @@ class _DriverTipSelectorState extends State<DriverTipSelector> {
   final RedirectController redirect = Get.put(RedirectController());
   int? selectedIndex;
   String? selectedAmount;
+  bool deliverytip = false;
   final TextEditingController customAmountController = TextEditingController();
   Foodcartcontroller tipscontroller = Get.put(Foodcartcontroller());
 
@@ -39,7 +40,7 @@ class _DriverTipSelectorState extends State<DriverTipSelector> {
 @override
 void initState() {
   super.initState();
-
+ 
   WidgetsBinding.instance.addPostFrameCallback((_) {
     final storedTip = normalizeTip(tipscontroller.selectedTipAmount.value);
 

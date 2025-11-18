@@ -228,8 +228,8 @@ class _OrderlistState extends State<Orderlist> {
                                   ['rejectedNote'],
                               grandtotal: value.orderModel[index]
                                   ['amountDetails']['finalAmount'],
-                              gst: value.orderModel[index]['amountDetails']
-                                  ['tax'],
+                              gst:( value.orderModel[index]['amountDetails']
+                                  ['tax']+value.orderModel[index]['amountDetails']["otherCharges"]),
                               itemTotal: value.orderModel[index]
                                       ['amountDetails']
                                   ['cartFoodAmountWithoutCoupon'],

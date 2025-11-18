@@ -134,11 +134,16 @@ class _AddProductButtonState extends State<AddProductButton> {
                                         isLoading = true;
                                       });
 
-
+print("Hiiiiiiii  ${cartProvider.totalDis} iii");
                                       cartProvider.searchRes(restaurantId: widget.restaurantId).then((value) {
 
+print("Beeeeeeeeeee  ${cartProvider.totalDis}");
 
                                               double  totalDistance = double.parse(cartProvider.totalDis.split(' ').first.toString());
+                                          //  double totalDistance = double.tryParse(cartProvider.totalDis.split(' ').first.trim()) ?? 0.0;
+
+// String distanceString = cartProvider.totalDis.split(' ').first.trim();
+// double totalDistance = double.tryParse(distanceString) ?? 0.0;
 
                                               foodcart.getbillfoodcartfood(km: totalDistance);
 
@@ -170,7 +175,7 @@ class _AddProductButtonState extends State<AddProductButton> {
                                        },);
 
 
-
+print("Going to next page");
 
                                                       }
                                                     ).whenComplete(() {

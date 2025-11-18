@@ -28,6 +28,9 @@
         android:label="Miogra"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
 
         <activity
             android:name=".MainActivity"
@@ -68,7 +71,7 @@
         <!-- 🗺️ Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAOZewZNjU5p3SRKy4waqDjhkpvK2vIjso" />
+            android:value="AIzaSyDxQfy4Rbp2wno25FBwr5xwHLqh9WRUg-w" />
 
         <!-- 🧩 Flutter embedding -->
         <meta-data

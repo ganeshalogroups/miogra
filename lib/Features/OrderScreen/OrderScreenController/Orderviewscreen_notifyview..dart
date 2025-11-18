@@ -478,12 +478,13 @@ TextStyle getStatusTextStyle(String status) {
                                 right:
                                     16), // Adjust the right padding as needed
                             child: Text(
-                              'GST',
+                              'GST and Other Charges',
                               style: CustomTextStyle.carttblack,
                             ),
                           ),
                           Text(
-                            "₹ ${ value.ordergetbyorderModel['amountDetails']['tax'].toStringAsFixed(2)}",
+                          "₹ ${(value.ordergetbyorderModel['amountDetails']['tax'] + value.ordergetbyorderModel['amountDetails']['otherCharges']).toStringAsFixed(2)}",
+
                             style: CustomTextStyle.carttblack,
                           ),
                         ],
@@ -517,6 +518,7 @@ TextStyle getStatusTextStyle(String status) {
                         ],
                       ),
                       const SizedBox(height: 10),
+                      if(value.ordergetbyorderModel['amountDetails']['tips']!=0.0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -538,7 +540,9 @@ TextStyle getStatusTextStyle(String status) {
                           ),
                         ],
                       ),
+                       if(value.ordergetbyorderModel['amountDetails']['tips']!=0.0)
                       const SizedBox(height: 10),
+                    
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -561,6 +565,7 @@ TextStyle getStatusTextStyle(String status) {
                         ],
                       ),
                       const SizedBox(height: 10),
+                      if(value.ordergetbyorderModel['amountDetails']['couponsAmount']!=0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -577,6 +582,7 @@ TextStyle getStatusTextStyle(String status) {
                           )
                         ],
                       ),
+                        if(value.ordergetbyorderModel['amountDetails']['couponsAmount']!=0)
                       20.toHeight,
                       CustomPaint(
                             size: Size(MediaQuery.of(context).size.width / 1,20), // Adjust size here

@@ -37,7 +37,7 @@ class _BottomBannerState extends State<BottomBanner> {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
-                    imageUrl:"${globalImageUrlLink}${ widget.bottomBannerList[index]["imageUrl"]}",
+                    imageUrl:"${globalImageUrlLink}${ widget.bottomBannerList[index]["document"]["imageUrl"]}",
                     placeholder: (context, url) =>
                         Image.asset(fastxdummyImg, fit: BoxFit.contain),
                     errorWidget: (context, url, error) =>

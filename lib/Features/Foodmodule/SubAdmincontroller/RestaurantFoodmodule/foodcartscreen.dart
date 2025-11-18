@@ -133,10 +133,32 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
   Logger log = Logger();
   bool hasUnavailableItem = false;
   int commission =0;
+  bool  isdeliverytip = false;
+  bool  iscoupon = false;
 
   @override
   void initState() {
     super.initState();
+    
+     redirect.getredirectDetails();
+     for (var item
+                              in redirect.redirectLoadingDetails["data"]) {
+                            if (item["key"] == "delivery_tips") {
+                           isdeliverytip = item["value"].toString().toLowerCase()=="true";
+
+                              break; // Exit loop once the "whatsappLink" is found and launched
+                            }
+                          }
+                           for (var item
+                              in redirect.redirectLoadingDetails["data"]) {
+                            if (item["key"] == "coupon") {
+                           iscoupon = item["value"].toString().toLowerCase()=="true";
+
+                              break; // Exit loop once the "whatsappLink" is found and launched
+                            }
+                          }
+
+                          print(" HANDS UPPPP  ");
     WidgetsBinding.instance.addPostFrameCallback((_) {
       addresscontroller.getaddressapi(
           context: context, latitude: initiallat, longitude: initiallong);
@@ -152,7 +174,14 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                                           .getfoodcart["data"]
                                                                       ["restaurantDetails"][
                                                                   "parentAdminUserId"],);
+
+
+                                                                   foodcart.restaurantCommission(vendorId: foodcart
+                                                                          .getfoodcart["data"]
+                                                                      ["restaurantDetails"][
+                                                                  "parentAdminUserId"]);
     });
+   
   }
 
  
@@ -169,6 +198,22 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
             context: context, latitude: initiallat, longitude: initiallong);
         integration.initiateRazorPay();
         redirect.getredirectDetails();
+         for (var item
+                              in redirect.redirectLoadingDetails["data"]) {
+                            if (item["key"] == "delivery_tips") {
+                           isdeliverytip = item["value"].toString().toLowerCase()=="true";
+
+                              break; // Exit loop once the "whatsappLink" is found and launched
+                            }
+                          }
+                           for (var item
+                              in redirect.redirectLoadingDetails["data"]) {
+                            if (item["key"] == "coupon") {
+                           iscoupon = item["value"].toString().toLowerCase()=="true";
+
+                              break; // Exit loop once the "whatsappLink" is found and launched
+                            }
+                          }
 
         await foodcart.getfoodcartfood(km: resGlobalKM);
         await foodcart.getbillfoodcartfood(km: resGlobalKM);
@@ -679,7 +724,9 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                           : 10.toHeight,
                       mapaddres.addressType != 'Current' &&
                               addresscontroller.getaddressdetails != null
-                          ? Container(
+                          ?
+                          iscoupon?
+                           Container(
                               decoration: BoxDecorationsFun
                                   .whiteCircelRadiusDecoration(),
                               child: Padding(
@@ -784,7 +831,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                   ],
                                 ),
                               ),
-                            )
+                            ):const SizedBox.shrink()
                           : const SizedBox.shrink(),
                       mapaddres.addressType != 'Current' &&
                               addresscontroller.getaddressdetails != null
@@ -807,14 +854,25 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                     .selectedTipAmount.value.isNotEmpty
                                 ? double.parse(foodcart.selectedTipAmount.value)
                                 : 0.0;
+double finalPayable = calculateCommissionedPrice(
+  basePrice:double.parse( foodcart.getbillfoodcart["data"]["totalFoodAmount"].toStringAsFixed(2)),
+  commissionList:   foodcart.getrestaurantCommission,
+  aboveMaxPercentage: 20.0
+);
+
+
+
+
                             return BillSummaryWidget(
                              // amountForDistanceForDeliveryman:"₹${foodcart.getbillfoodcart["data"]["foods"]["amountForDistanceForDeliveryman"].toStringAsFixed(2)}",
-                              basePrice:
-                                  "₹${foodcart.getbillfoodcart["data"]["totalFoodAmount"].toStringAsFixed(2)}",
-                              gst:
-                                  "₹${foodcart.getbillfoodcart["data"]["totalGST"].toStringAsFixed(2)}",
+                              basePrice:  finalPayable.toStringAsFixed(2),
+                              
+                              // "${foodcart.getbillfoodcart["data"]["totalFoodAmount"].toStringAsFixed(2)}", 
+                              gstAndOtherCharges:
+                               "${(foodcart.getbillfoodcart["data"]["totalGST"] + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).toStringAsFixed(2)}",
+
                               packagingCharge:
-                                  "₹${foodcart.getbillfoodcart["data"]["totalPackageCharges"].toStringAsFixed(2)}",
+                                  "${foodcart.getbillfoodcart["data"]["totalPackageCharges"].toStringAsFixed(2)}",
                               couponDiscount: coupountext() != '0.0'
                                   ? "-${coupountext()}"
                                   : coupountext(),
@@ -822,7 +880,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                               platfomfee:
                                   "${foodcart.getbillfoodcart["data"]["platformFeeCharge"].toStringAsFixed(2)}",
                               delivaryCharge:
-                                  "₹${foodcart.getbillfoodcart["data"]["deliveryCharges"].toStringAsFixed(2)}",
+                                  "${foodcart.getbillfoodcart["data"]["deliveryCharges"].toStringAsFixed(2)}",
                               totalKm: foodcartprovider.totalDis,
                               redirectLoadingDetails:
                                   redirect.redirectLoadingDetails,
@@ -855,6 +913,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                   ["deliveryCharges"] +
                                               foodcart.getbillfoodcart["data"]
                                                   ["totalGST"] +
+                                                   foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] +
                                               tipAmount)
                                           .roundToDouble()
                                           .toStringAsFixed(2);
@@ -880,12 +939,13 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                   ["platformFeeCharge"] +
                                               foodcart.getbillfoodcart["data"]
                                                   ["deliveryCharges"] +
+                                                   foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] +
                                               foodcart.getbillfoodcart["data"]
                                                   ["totalGST"])
                                           .roundToDouble()
                                           .toStringAsFixed(2);
                                     })()}"
-                                  : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount).roundToDouble().toStringAsFixed(2)}",
+                                  : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).roundToDouble().toStringAsFixed(2)}",
                             );
                           }
                         },
@@ -906,9 +966,29 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                           : 5.toHeight,
                       mapaddres.addressType != 'Current' &&
                               addresscontroller.getaddressdetails != null
-                          ? DriverTipSelector(
-                              externalFormKey: _formKey,
-                            )
+                          ?
+                          // isdeliverytip?
+                          //  DriverTipSelector(
+                          //     externalFormKey: _formKey,
+                          //   )
+                          //   :
+                          //   SizedBox.shrink()
+
+
+                          Visibility(
+  visible: isdeliverytip, // show/hide visually only
+  maintainState: true,    // keep form state alive!
+  child: DriverTipSelector( key: ValueKey(isdeliverytip), 
+    externalFormKey: _formKey),
+)
+// Offstage(
+//   offstage: !isdeliverytip,
+//   child: DriverTipSelector(
+//     key: ValueKey(isdeliverytip), 
+//     externalFormKey: _formKey),
+// )
+
+
                           : const SizedBox.shrink(),
                       mapaddres.addressType != 'Current' &&
                               addresscontroller.getaddressdetails != null
@@ -1233,7 +1313,9 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                             "deliveryCharges"] +
                                                         foodcart.getbillfoodcart[
                                                                 "data"]
-                                                            ["totalGST"] +
+                                                            ["totalGST"] +  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]
+                                                              
+                                                            + 
                                                         tipAmount)
                                                     .roundToDouble()
                                                     .toStringAsFixed(2);
@@ -1264,13 +1346,13 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                             "platformFeeCharge"] +
                                                         foodcart.getbillfoodcart[
                                                                 "data"][
-                                                            "deliveryCharges"] +
+                                                            "deliveryCharges"] + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]+
                                                         foodcart.getbillfoodcart[
                                                             "data"]["totalGST"])
                                                     .roundToDouble()
                                                     .toStringAsFixed(2);
-                                              })()} | Place orde"
-                                            : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount).roundToDouble().toStringAsFixed(2)} | Place orde",
+                                              })()} | Place order"
+                                            : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).roundToDouble().toStringAsFixed(2)} | Place order",
                                         style: CustomTextStyle.loginbuttontext,
                                       ),
                                     ],
@@ -1427,10 +1509,12 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                               totsamount =
                                   0; // Default to 0 when no coupon is applied
                             }
+                           
+                              
                             double tipAmount = foodcart
                                     .selectedTipAmount.value.isNotEmpty
                                 ? double.parse(foodcart.selectedTipAmount.value)
-                                : 0.0;
+                                : 0;
                             return isButtonLoading
                                 ? Center(
                                     child: CustomdisabledButton(
@@ -1787,9 +1871,10 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                                       ["totalPackageCharges"] +
                                                                   foodcart.getbillfoodcart["data"]["deliveryCharges"] +
                                                                   tipAmount +
-                                                                  foodcart.getbillfoodcart["data"]["totalGST"] +
+                                                                  foodcart.getbillfoodcart["data"]["totalGST"] +   foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] +
                                                                   foodcart.getbillfoodcart["data"]["platformFeeCharge"],
                                                               deliveryCharges: foodcart.getbillfoodcart["data"]["deliveryCharges"],
+
                                                               tax: foodcart.getbillfoodcart["data"]["totalGST"],
                                                               tips: tipAmount,
                                                               couponsamount: cou,
@@ -1800,7 +1885,8 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                               additionalInstructions: instantdata.delInstruction,
                                                               packagingcharge: foodcart.getbillfoodcart["data"]["totalPackageCharges"],
                                                               platformFee: foodcart.getbillfoodcart["data"]["platformFeeCharge"],
-                                                              amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"])
+                                                              amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"],
+                                                              otherCharges:foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"],)
 
                                                           .then((value) {
                                                         Future.delayed(
@@ -1854,7 +1940,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                               orderBasicamount:
                                                                   foodcart.getbillfoodcart["data"]
                                                                       ["totalFoodAmount"],
-                                                              finalamount: foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount,
+                                                              finalamount: foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount+  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] ,
                                                               deliveryCharges: foodcart.getbillfoodcart["data"]["deliveryCharges"],
                                                               tax: foodcart.getbillfoodcart["data"]["totalGST"],
                                                               tips: tipAmount,
@@ -1866,7 +1952,8 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                               baseKm: resGlobalKM,
                                                               additionalInstructions: instantdata.delInstruction,
                                                               packagingcharge: foodcart.getbillfoodcart["data"]["totalPackageCharges"],
-                                                                amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"])
+                                                                amountForDistanceForDeliveryman: foodcart.getbillfoodcart["data"]["foods"][0]["amountForDistanceForDeliveryman"],
+                                                                otherCharges:foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"],)
                                                           .then((value) {
                                                         Future.delayed(
                                                           const Duration(
@@ -2090,6 +2177,46 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
     );
   }
 
+
+
+double calculateCommissionedPrice({
+  required double basePrice,
+  required List<dynamic> commissionList,
+  required double aboveMaxPercentage,
+}) {
+  // Sort slabs by key
+  commissionList.sort((a, b) =>
+      (a["commissionKey"] ?? 0).compareTo(b["commissionKey"] ?? 0));
+
+  double? matchedPercentage;
+
+  // Pick correct slab
+  for (var com in commissionList) {
+    double key = double.parse(com["commissionKey"].toString());
+    double percent = double.parse(com["commissionPercentage"].toString());
+
+    if (basePrice <= key) {
+      matchedPercentage = percent;
+      break;
+    }
+  }
+
+  // If above all slabs → use above max percentage (mk)
+  matchedPercentage ??= aboveMaxPercentage;
+
+  // Calculate commission amount
+  double commissionAmount =matchedPercentage ;
+
+  // Final price after adding commission
+  double finalPrice = basePrice + commissionAmount;
+
+  return finalPrice;
+}
+
+
+
+
+
   Text getFinalAmount(CouponController coupon, double tipAmount) {
     return Text(
       coupon.isCouponApplied
@@ -2132,11 +2259,11 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                       foodcart.getbillfoodcart["data"]["totalPackageCharges"] +
                       foodcart.getbillfoodcart["data"]["platformFeeCharge"] +
                       foodcart.getbillfoodcart["data"]["deliveryCharges"] +
-                      foodcart.getbillfoodcart["data"]["totalGST"])
+                      foodcart.getbillfoodcart["data"]["totalGST"]+ foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"])
                   .roundToDouble()
                   .toStringAsFixed(2);
             })()} | Place order"
-          : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount).roundToDouble().toStringAsFixed(2)} | Place order",
+          : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount +  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).roundToDouble().toStringAsFixed(2)} | Place order",
       style: CustomTextStyle.loginbuttontext,
     );
   }
@@ -2161,8 +2288,12 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                 onTap: () {
                   print(widget.restaurantId);
                 },
-                child: const Text("Item Details",
-                    style: CustomTextStyle.boldblack12),
+                child:  Text("Item Details",
+                    style:  TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.bold,
+      color: Customcolors.DECORATION_BLACK,
+      fontFamily: 'Poppins-Regular')),
               ),
               5.toHeight,
               ListView.separated(
@@ -2226,10 +2357,15 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                         width: 200,
                                         child: Text(
                                           foodName.capitalizeFirst.toString(),
-                                          style: CustomTextStyle.carttblack,
+                                          style: TextStyle(
+      fontSize: 13.sp,
+      fontWeight: FontWeight.bold,
+      color: Customcolors.DECORATION_BLACK,
+      fontFamily: 'Poppins-Regular'),
                                           overflow: TextOverflow.clip,
                                         ),
                                       ),
+                                      SizedBox(height: 5.h,),
                                       isCustomized
                                           ? Row(
                                               children: [
@@ -2249,15 +2385,21 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                 ),
                                                 Text(
                                                   "₹${calculatePrice(index)}",
-                                                  style: CustomTextStyle
-                                                      .foodDescription,
+                                                  style: TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.bold,
+      color: Customcolors.DECORATION_BLACK,
+      fontFamily: 'Poppins-Regular')
                                                 ),
                                               ],
                                             )
                                           : Text(
                                               "₹${calculatePrice(index)}",
-                                              style: CustomTextStyle
-                                                  .foodDescription,
+                                              style:  TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.bold,
+      color: Customcolors.DECORATION_BLACK,
+      fontFamily: 'Poppins-Regular')
                                             ),
                                     ],
                                   ),
@@ -2602,4 +2744,6 @@ class AddToCartController extends GetxController {
   void setClicked(bool value) {
     isClicked.value = value; // Set specific state
   }
+
+
 }

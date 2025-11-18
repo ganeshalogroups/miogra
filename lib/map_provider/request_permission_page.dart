@@ -91,7 +91,7 @@ void checkIfLocationExistsAndNavigate(BuildContext context) {
     // Already have a saved location → skip permission screen
     Future.delayed(Duration.zero, () {
       Get.offAll(() => const Foodscreen(categoryFilter: "restaurant",), transition: Transition.leftToRight)!.whenComplete(() {
-    //  Get.offAll(() => const HomeScreenPage(), transition: Transition.leftToRight)!.whenComplete(() {
+    // Get.offAll(() => const HomeScreenPage(), transition: Transition.leftToRight)!.whenComplete(() {
         if (mounted) {
           setState(() {
             isLoading = false;
@@ -377,7 +377,7 @@ void showAddressSearchBottomSheet(BuildContext context) {
                         if (mounted) {
 
                           Get.offAll(const Foodscreen(categoryFilter: "restaurant",), transition: Transition.fade) ?.whenComplete(() {
-                        //  Get.offAll(const HomeScreenPage(), transition: Transition.fade) ?.whenComplete(() {
+                         // Get.offAll(const HomeScreenPage(), transition: Transition.fade) ?.whenComplete(() {
                                  
                             if (mounted) {
                               setState(() {
@@ -426,7 +426,7 @@ void showAddressSearchBottomSheet(BuildContext context) {
                         if (mounted) {
 
                          Get.offAll(const Foodscreen(categoryFilter: "restaurant",),transition: Transition.fade) ?.whenComplete(() {
-                        //  Get.offAll(const HomeScreenPage(), transition: Transition.fade)?.whenComplete(() {
+                      //   Get.offAll(const HomeScreenPage(), transition: Transition.fade)?.whenComplete(() {
 
                             if (mounted) {
                               setState(() {

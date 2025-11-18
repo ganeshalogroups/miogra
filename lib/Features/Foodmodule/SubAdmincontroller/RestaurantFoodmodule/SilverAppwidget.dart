@@ -105,7 +105,7 @@ class _SliverAppBarWidgetState extends State<SliverAppBarWidget> {
 
     return SliverAppBar(
       toolbarHeight: 0,
-      expandedHeight: MediaQuery.of(context).size.height / 1.64,
+      expandedHeight: MediaQuery.of(context).size.height / 1.78,
       // expandedHeight: 400.h,
       pinned: true,
       floating: false, // Ensure it doesn't float on scroll

@@ -3,6 +3,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:testing/Features/OrderScreen/OrderScreenController/RatingController.dart';
 import 'package:testing/Features/OrderScreen/OrdersTab.dart';
+import 'package:testing/Features/OrderScreen/Orderstatus.dart';
 import 'package:testing/utils/Buttons/CustomTextstyle.dart';
 import 'package:testing/utils/Containerdecoration.dart';
 import 'package:testing/utils/CustomColors/Customcolors.dart';
@@ -255,7 +256,8 @@ class _FoodRatingsState extends State<FoodRatings> {
       canPop: false,
       onPopInvoked: (didPop) async {
         if (didPop) return;
-        await ExitApp.ratingpop();
+    //    await ExitApp.ratingpop();
+         Navigator.pop(context);
       },
       child: Scaffold(
         backgroundColor: Customcolors.DECORATION_CONTAINERGREY,
@@ -269,8 +271,9 @@ class _FoodRatingsState extends State<FoodRatings> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.off(const OrdersHistory());
-                    // Get.to(Orderstatus());
+                   // Get.off(const OrdersHistory());
+                  //  Get.off(Orderstatus());
+                  Navigator.pop(context);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment

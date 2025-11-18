@@ -606,7 +606,7 @@ static const TextStyle wallettext = TextStyle(
   );
 
   static const TextStyle carttblack = TextStyle(
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Customcolors.DECORATION_BLACK,
     fontFamily: 'Poppins-Medium',

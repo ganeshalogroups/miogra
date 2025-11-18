@@ -128,7 +128,7 @@ class _FoodOrderHistoryState extends State<FoodOrderHistory> {
                                       delivaryFee       : orders['amountDetails']['deliveryCharges'],
                                       deliverytip       : orders['amountDetails']['tips'],
                                       grandtotal        : orders['amountDetails']['finalAmount'],
-                                      gst               : orders['amountDetails']['tax'],
+                                      gst               : (orders['amountDetails']['tax']+ orders['amountDetails']['otherCharges']),
                                       recievername      : orders['dropAddress'][0]['contactPerson'].toString().capitalizeFirst.toString(), 
                                       recievernumber    : orders['dropAddress'][0]['contactPersonNumber'].toString().capitalizeFirst.toString(),
                                       instructions      : orders['dropAddress'][0]['instructions'].toString().capitalizeFirst.toString(),  

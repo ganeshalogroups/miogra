@@ -31,15 +31,19 @@ class HomeadresskeyController extends GetxController {
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         adresskey = result;
-
+       
+print("USER ID  $UserId    $Usertoken");
+print(API.findhomeaddress);
+ print(result);
         // Extract disable flags
         isHomeDisabled.value = result['data']['isHome'] ?? false;
         isWorkDisabled.value = result['data']['isWork'] ?? false;
-
+print(isHomeDisabled.value);
       } else {
         adresskey = null;
         isHomeDisabled.value = false;
         isWorkDisabled.value = false;
+        print("ELSE");
       }
     } catch (e) {
       adresskey = null;

@@ -93,109 +93,161 @@ class AvailableItem extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                 mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            foodIndexvalue.foodName.toString().capitalizeFirst.toString(),
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-      fontSize: 12.h,
-      fontWeight: FontWeight.w600,
-      color: Customcolors.DECORATION_BLACK,
-      fontFamily: 'Poppins-Medium'),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 35),
+                      child: Row(
+                      //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              foodIndexvalue.foodName.toString().capitalizeFirst.toString(),
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                            fontSize: 12.h,
+                            fontWeight: FontWeight.w500,
+                            color: Customcolors.addressColor,
+                            fontFamily: 'Poppins-Medium'),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8, top: 8),
-                          child: Builder(
-                            builder: (context) {
-                              String foodType = foodIndexvalue.foodType ?? '';
-                              String assetPath;
-
-                              switch (foodType) {
-                                case 'nonveg':
-                                  assetPath = "assets/images/Non veg.png";
-                                  break;
-                                case 'veg':
-                                  assetPath = "assets/images/veg.png";
-                                  break;
-                                case 'egg':
-                                  assetPath = "assets/images/egg.jpg";
-                                  break;
-                                default:
-                                  assetPath = '';
+                      
+                           (offerPercentage != null &&offerPercentage.toString().isNotEmpty &&offerPercentage != 0)?
+                       Text(
+                                  " ₹ ${foodIndexvalue.iscustomizable == true
+                                       ?
+                                       (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
+                                          ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice 
+                                         :   foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice ).toString()
+                           :  foodIndexvalue.food!.customerPrice
+                                    
+                                  }",
+                              
+                                style: TextStyle(
+                            fontSize: 12.h,
+                            fontWeight: FontWeight.w600,
+                            color: Customcolors.DECORATION_BLACK,
+                            fontFamily: 'Poppins-Medium'),
+                                ):
+                      
+                                
+                                 Obx(() {
+                              if (redirect.isredirectLoading.isTrue) {
+                                return const Center(child: CupertinoActivityIndicator());
+                              } else if (redirect.redirectLoadingDetails == null ||
+                                  redirect.redirectLoadingDetails["data"] == null) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      " ₹${foodIndexvalue.iscustomizable == true
+                                          ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
+                                              ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice.toString()
+                                              : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice.toString())
+                                          : foodIndexvalue.food!.customerPrice.toString()
+                                      }",
+                                      style: CustomTextStyle.foodpricetext,
+                                    ),
+                                    
+                                   
+                                  ],
+                                );
                               }
-
-                              return assetPath.isNotEmpty
-                                  ? iconFunction(iconname: assetPath)
-                                  : const SizedBox.shrink();
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                    const CustomSizedBox(height: 5),
-                    if (foodIndexvalue.foodDiscription!.toString().isNotEmpty &&
-                        foodIndexvalue.foodDiscription!.toString() != "null")
-                      ReadMoreText(
-                        foodIndexvalue.foodDiscription!.toString(),
-                        trimLines: 3,
-                        trimMode: TrimMode.Line,
-                        trimCollapsedText: ' See more',
-                        trimExpandedText: ' See less',
-                        moreStyle: CustomTextStyle.boldblack12,
-                        lessStyle: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Customcolors.darkpurple,
-                        ),
-                        style: CustomTextStyle.foodDescription,
-                        textAlign: TextAlign.justify,
-                        colorClickableText: Customcolors.DECORATION_BLACK,
+                               else {
+                                double offerValue = 0;
+                                for (var item in redirect.redirectLoadingDetails["data"]) {
+                                  if (item["key"] == "offerValue") {
+                                     offerValue = item["value"] != null ? double.tryParse(item["value"].toString()) ?? 0 : 0;
+                                    break;
+                                  }
+                                }
+                      
+                                return Text(
+                                  " ₹${foodIndexvalue.iscustomizable == true
+                                      ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
+                                          ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice
+                                          : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice).toString()
+                                      : foodIndexvalue.food!.customerPrice.toString()
+                                  }",
+                                  style: TextStyle(
+                                      fontSize: 12.h,
+                                      fontWeight: FontWeight.w600,
+                                      color: Customcolors.DECORATION_BLACK,
+                                      fontFamily: 'Poppins-Medium'),
+                                );
+                              }
+                            }),
+                      
+                      
+                          //  VEG NON VEG IMAGE
+                          // Padding(
+                          //   padding: const EdgeInsets.only(right: 8, top: 8),
+                          //   child: Builder(
+                          //     builder: (context) {
+                          //       String foodType = foodIndexvalue.foodType ?? '';
+                          //       String assetPath;
+                      
+                          //       switch (foodType) {
+                          //         case 'nonveg':
+                          //           assetPath = "assets/images/Non veg.png";
+                          //           break;
+                          //         case 'veg':
+                          //           assetPath = "assets/images/veg.png";
+                          //           break;
+                          //         case 'egg':
+                          //           assetPath = "assets/images/egg.jpg";
+                          //           break;
+                          //         default:
+                          //           assetPath = '';
+                          //       }
+                      
+                          //       return assetPath.isNotEmpty
+                          //           ? iconFunction(iconname: assetPath)
+                          //           : const SizedBox.shrink();
+                          //     },
+                          //   ),
+                          // )
+                        ],
                       ),
+                    ),
+
+                    
+                    // const CustomSizedBox(height: 5),
+                    // if (foodIndexvalue.foodDiscription!.toString().isNotEmpty &&
+                    //     foodIndexvalue.foodDiscription!.toString() != "null")
+                    //   ReadMoreText(
+                    //     foodIndexvalue.foodDiscription!.toString(),
+                    //     trimLines: 3,
+                    //     trimMode: TrimMode.Line,
+                    //     trimCollapsedText: ' See more',
+                    //     trimExpandedText: ' See less',
+                    //     moreStyle: CustomTextStyle.boldblack12,
+                    //     lessStyle: const TextStyle(
+                    //       fontSize: 12,
+                    //       fontWeight: FontWeight.bold,
+                    //       color: Customcolors.darkpurple,
+                    //     ),
+                    //     style: CustomTextStyle.foodDescription,
+                    //     textAlign: TextAlign.justify,
+                    //     colorClickableText: Customcolors.DECORATION_BLACK,
+                    //   ),
                     const SizedBox(height: 10),
 
+Text(restaurantname,style:  TextStyle(
+      fontSize: 12.h,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF424242),
+      fontFamily: 'Poppins-SemiBold'),
+
+),
                     // Price and Button Row
                     (offerPercentage != null &&offerPercentage.toString().isNotEmpty &&offerPercentage != 0)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(
-                                " ₹${foodIndexvalue.iscustomizable == true
-                                    ?
-                                     (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                        ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice 
-                                       :   foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice ).toString()
-                         :  foodIndexvalue.food!.customerPrice
-
-    //                                 :  foodIndexvalue.food!.customerPrice +
-    // (((foodIndexvalue.commission ?? rescommission) / 100) * foodIndexvalue.food!.customerPrice)
-
-                                  
-                                }",
-                              //  style: CustomTextStyle.foodpricetext,
-                              style: TextStyle(
-      fontSize: 12.h,
-      fontWeight: FontWeight.w600,
-      color: Customcolors.DECORATION_BLACK,
-      fontFamily: 'Poppins-Medium'),
-                              ),
-                              // const SizedBox(width: 1),
-                              // Text(
-                              //   " ₹${foodIndexvalue.iscustomizable == true
-                              //       ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                              //           ? (foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice + (foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice * offerPercentage / 100))
-                              //           : (foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice + (foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice * offerPercentage / 100))).roundToDouble().toStringAsFixed(2)
-                                   
-                              //       : (foodIndexvalue.food!.customerPrice + (foodIndexvalue.food!.customerPrice * offerPercentage / 100)).roundToDouble().toStringAsFixed(2)
-                              //   }",
-                              //   style: CustomTextStyle.strikered,
-                              // ),
+                             
+                             
                               const Spacer(),
                               Padding(
                                 padding: const EdgeInsets.only(right: 8),
@@ -228,14 +280,14 @@ class AvailableItem extends StatelessWidget {
                                     style: CustomTextStyle.foodpricetext,
                                   ),
                                   const SizedBox(width: 1),
-                                  Text(
-                                    " ₹${foodIndexvalue.iscustomizable == true
-                                        ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                            ? (foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice +(foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice*20/100))
-                                            : (foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice+(foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice*20/100))).roundToDouble().toStringAsFixed(2)
-                                        : (foodIndexvalue.food!.customerPrice+(foodIndexvalue.food!.customerPrice*20/100)).roundToDouble().toStringAsFixed(2)}",
-                                    style: CustomTextStyle.strikered,
-                                  ),
+                                  // Text(
+                                  //   " ₹${foodIndexvalue.iscustomizable == true
+                                  //       ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
+                                  //           ? (foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice +(foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice*20/100))
+                                  //           : (foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice+(foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice*20/100))).roundToDouble().toStringAsFixed(2)
+                                  //       : (foodIndexvalue.food!.customerPrice+(foodIndexvalue.food!.customerPrice*20/100)).roundToDouble().toStringAsFixed(2)}",
+                                  //   style: CustomTextStyle.strikered,
+                                  // ),
                                   const Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8),
@@ -250,7 +302,8 @@ class AvailableItem extends StatelessWidget {
                                   ),
                                 ],
                               );
-                            } else {
+                            }
+                             else {
                               double offerValue = 0;
                               for (var item in redirect.redirectLoadingDetails["data"]) {
                                 if (item["key"] == "offerValue") {
@@ -269,19 +322,23 @@ class AvailableItem extends StatelessWidget {
                                             : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice).toString()
                                         : foodIndexvalue.food!.customerPrice.toString()
                                     }",
-                                    style: CustomTextStyle.foodpricetext,
+                                    style: TextStyle(
+      fontSize: 12.h,
+      fontWeight: FontWeight.w600,
+      color: Customcolors.DECORATION_BLACK,
+      fontFamily: 'Poppins-Medium'),
                                   ),
                                   const SizedBox(width: 1),
                                   if (offerValue != null)
-                                    Text(
-                                      " ₹${foodIndexvalue.iscustomizable == true
-                                          ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                              ? (foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice+(foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice*offerValue/100))
-                                              : (foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice +(foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice*offerValue/100))).roundToDouble().toStringAsFixed(2)
-                                          : (foodIndexvalue.food!.customerPrice +(foodIndexvalue.food!.customerPrice *offerValue/100)).roundToDouble().toStringAsFixed(2)
-                                      }",
-                                      style: CustomTextStyle.strikered,
-                                    ),
+                                    // Text(
+                                    //   " ₹${foodIndexvalue.iscustomizable == true
+                                    //       ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
+                                    //           ? (foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice+(foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice*offerValue/100))
+                                    //           : (foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice +(foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice*offerValue/100))).roundToDouble().toStringAsFixed(2)
+                                    //       : (foodIndexvalue.food!.customerPrice +(foodIndexvalue.food!.customerPrice *offerValue/100)).roundToDouble().toStringAsFixed(2)
+                                    //   }",
+                                    //   style: CustomTextStyle.strikered,
+                                    // ),
                                   const Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8),

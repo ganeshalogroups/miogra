@@ -9,6 +9,7 @@ import 'package:testing/Features/OrderScreen/TrackOrderdetails.dart';
 import 'package:testing/map_provider/Map%20Screens/markervaluse.dart';
 import 'package:testing/utils/Buttons/CustomContainer.dart';
 import 'package:testing/utils/Buttons/CustomTextstyle.dart';
+import 'package:testing/utils/Const/constValue.dart';
 import 'package:testing/utils/Containerdecoration.dart';
 import 'package:testing/utils/CustomColors/Customcolors.dart';
 import 'package:testing/utils/CustomDottedline.dart';
@@ -577,11 +578,13 @@ Future<void> makeSms({required String phoneNumber, required String message}) asy
                               children: [
                                 // Display delivery partner's image
                            
-                                   orderProvider != null &&   orderProvider['assigneeDetails'] != null &&  orderProvider['assigneeDetails']['imgUrl'] != null
+                                   orderProvider != null && 
+                                     orderProvider['assigneeDetails'] != null &&  
+                                     orderProvider['assigneeDetails']['imgUrl'] != null
                                        
     
     
-                                        ?  CircleAvatar(backgroundImage: NetworkImage(orderProvider['assigneeDetails']['imgUrl'].toString()),radius: 25,)
+                                        ?  CircleAvatar(backgroundImage: NetworkImage("$globalImageUrlLink${orderProvider['assigneeDetails']['imgUrl']}".toString()),radius: 25,)
                              
                                     : Container(
                                         margin: const EdgeInsets.only(right: 10),

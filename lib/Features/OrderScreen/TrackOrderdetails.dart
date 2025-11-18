@@ -7,6 +7,7 @@ import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
 import 'package:testing/Features/Homepage/homeStyles/FoodHomedecorations.dart';
 import 'package:testing/map_provider/Map%20Screens/MapSearch.dart/apiKey.dart';
+import 'package:testing/utils/Const/constValue.dart';
 import 'package:testing/utils/CustomColors/Customcolors.dart';
 import 'package:testing/utils/CustomDottedline.dart';
 import 'package:testing/utils/Toast/customtoastmessage.dart';
@@ -568,7 +569,7 @@ TextStyle getStatusTextStyle(String status) {
                                           // Display delivery partner's image
                                     
                                             orderProvider != null &&   orderProvider['assigneeDetails'] != null &&  orderProvider['assigneeDetails']['imgUrl'] != null
-                                                  ?  CircleAvatar(backgroundImage: NetworkImage(orderProvider['assigneeDetails']['imgUrl'].toString()),radius: 25,)
+                                                  ?  CircleAvatar(backgroundImage: NetworkImage("$globalImageUrlLink${orderProvider['assigneeDetails']['imgUrl']}".toString()),radius: 25,)
                                               : Container(
                                                   margin: const EdgeInsets.only(right: 10),
                                                   child: Image.asset(
@@ -640,7 +641,7 @@ TextStyle getStatusTextStyle(String status) {
                                             child: Image.asset(
                                               height: 40,
                                               width: 30,
-                                              "assets/images/Fill call.png",
+                                              "assets/images/Fill call.png",color:Color(0xFF623089),
                                             ),
                                           ),
                                           SizedBox(width: 15.w),
@@ -663,7 +664,7 @@ TextStyle getStatusTextStyle(String status) {
                                             child: Image.asset(
                                               height: 40,
                                               width: 30,
-                                              "assets/images/Fill mail.png",
+                                              "assets/images/Fill mail.png",color:Color(0xFF623089),
                                             ),
                                           ),
                                         ],

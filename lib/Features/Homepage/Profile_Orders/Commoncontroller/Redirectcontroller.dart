@@ -13,7 +13,7 @@ class RedirectController extends GetxController {
 
 
  var isredirectLoading = false.obs;
- dynamic redirectLoadingDetails;
+ dynamic  redirectLoadingDetails;
 
   getredirectDetails() async {
 
@@ -29,11 +29,14 @@ class RedirectController extends GetxController {
         redirectLoadingDetails = result;
          debugPrint("get redirect link  ${API.redirecturl}");
       debugPrint("get redirect link status ${response.body}");
+      print("POONA");
       } else {
-        redirectLoadingDetails = null;
+        print("MONKEY");
+       // redirectLoadingDetails = null;
       }
     } catch (e) {
-      redirectLoadingDetails = null;
+      print("DONKEY   $e");
+     // redirectLoadingDetails = null;
       //print(e.toString());
       return false;
     } finally {
