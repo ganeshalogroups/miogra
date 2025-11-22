@@ -17,7 +17,7 @@ class MeatRazorpaymentIntegration {
 
   openSesssions({dynamic amount, dynamic orderId}) {
     var options = {
-      'key'     : 'rzp_test_RNONYkgRZkffRt',
+      'key'     : 'rzp_live_RU4HdKgo9ITqKs',
       'amount'  : amount,
       'currency': 'INR',
       'name'    : "Miogra",

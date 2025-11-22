@@ -92,6 +92,9 @@ fromPickupscreen(){
  WidgetsBinding.instance.addPostFrameCallback((_) async {
         
         loge.i(resGlobalKM);
+         Provider.of<HomepageProvider>(context, listen: false).getBanner(
+          categoryFilter:
+              nearbyreget.selectedIndex.value == 0 ? "restaurant" : "shop");
         Provider.of<HomepageProvider>(context, listen: false).getHomepagedatas();
          addresscontroller.getaddressapi(context: context,latitude: "",longitude: "");
         addresscontroller.getprimaryaddressapi();

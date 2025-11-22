@@ -1414,6 +1414,7 @@ import 'package:testing/Features/Foodmodule/SubAdmincontroller/RestaurantFoodmod
 import 'package:testing/Features/Foodmodule/SubAdmincontroller/Getnearbyrescontroller.dart';
 
 import 'package:testing/Features/Foodmodule/SubAdmincontroller/RestaurantFoodmodule/Restaurantcard.dart';
+import 'package:testing/Features/Foodmodule/SubAdmincontroller/RestaurantFoodmodule/comingsoon.dart';
 import 'package:testing/Features/Foodmodule/getFoodCartProvider.dart';
 import 'package:testing/Features/Homepage/AddressController/Addresscontroller.dart';
 import 'package:testing/Features/Homepage/Profile_Orders/CartFloatingbutton.dart';
@@ -1498,7 +1499,7 @@ class _FoodscreenState extends State<Foodscreen> {
       "name": "Ride",
       "description": "Because Every Parcel \nMatters",
       "content": "Delivery in 15mins",
-      "img": "assets/images/food_icon.png"
+      "img": "assets/images/rider_icon-removebg-preview.png"
     
     },
   ];
@@ -1528,7 +1529,7 @@ class _FoodscreenState extends State<Foodscreen> {
   @override
   void initState() {
     Provider.of<FavoritesProvider>(context, listen: false).removeAllFavorites();
-
+ 
     if (widget.fromPickupscreen) {
       fromPickupscreen();
     } else if (widget.isfrommanualsearchaddress) {
@@ -1578,6 +1579,9 @@ class _FoodscreenState extends State<Foodscreen> {
       Provider.of<HomepageProvider>(context, listen: false).getHomepagedatas(
           categoryFilter:
               nearbyreget.selectedIndex.value == 0 ? "restaurant" : "shop");
+              Provider.of<HomepageProvider>(context, listen: false).getBanner(
+          categoryFilter:
+              nearbyreget.selectedIndex.value == 0 ? "restaurant" : "shop");
       addresscontroller.getaddressapi(
           context: context, latitude: "", longitude: "");
       addresscontroller.getprimaryaddressapi();
@@ -1596,6 +1600,9 @@ class _FoodscreenState extends State<Foodscreen> {
 
       loge.i(resGlobalKM);
       Provider.of<HomepageProvider>(context, listen: false).getHomepagedatas(
+          categoryFilter:
+              nearbyreget.selectedIndex.value == 0 ? "restaurant" : "shop");
+              Provider.of<HomepageProvider>(context, listen: false).getBanner(
           categoryFilter:
               nearbyreget.selectedIndex.value == 0 ? "restaurant" : "shop");
       addresscontroller.getaddressapi(
@@ -1894,8 +1901,11 @@ class _FoodscreenState extends State<Foodscreen> {
                                     onTap: () {
                                       num.updateIndex(index);
                                      
-
-                                      Navigator.push(
+nearbyreget
+                                                              .selectedIndex
+                                                              .value ==
+                                                          2?Navigator.push(context, MaterialPageRoute(builder:(context)=>ComingSoon()))
+                                   :   Navigator.push(
                                         context,
                                         PageRouteBuilder(
                                           pageBuilder: (context, animation,
@@ -2126,9 +2136,12 @@ class _FoodscreenState extends State<Foodscreen> {
 
                                   // The restaurant card
                                   final restaurantCard = ResturantsCard(
+                                  
                                     favoritesProvider: favoritesProvider,
                                     restaurant: restaurant,
                                     nearbyresget: nearbyresget,
+                                    resRating: nearbyresget["document"]["rating"]
+                                        .toString(),
                                     langitude: endlong,
                                     latitude: endlat,
                                     offervalue: hompageprovider.orderModel ==

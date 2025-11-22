@@ -222,10 +222,10 @@ class CustomContainerDecoration {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            // Color(0xFFF98322), // Color code for #F98322
-            // Color(0xFFEE4C46), // End color
-                Color(0xFFAE62E8),
- Color(0xFF623089)
+            Customcolors.darkpinkColor,
+            Customcolors.darkpinkColor,
+//                 Color(0xFFAE62E8),
+//  Color(0xFF623089)
           ],
         ),
         borderRadius: BorderRadius.circular(5));
@@ -249,8 +249,10 @@ class CustomContainerDecoration {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-          Customcolors.lightpurple,
-          Customcolors.darkpurple
+            Customcolors.darkpinkColor,
+            Customcolors.darkpinkColor
+          // Customcolors.lightpurple,
+          // Customcolors.darkpurple
           ],
         ),
         borderRadius: BorderRadius.circular(15));
@@ -305,8 +307,10 @@ class CustomContainerDecoration {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-            Customcolors.lightpurple,
-            Customcolors.darkpurple
+              Customcolors.darkpinkColor,
+                Customcolors.darkpinkColor,
+            // Customcolors.lightpurple,
+            // Customcolors.darkpurple
             ],
           ),
         ),

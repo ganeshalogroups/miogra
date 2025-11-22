@@ -54,6 +54,7 @@ class Orderstatus extends StatefulWidget {
   dynamic productCategoryId;
   dynamic ratings;
   dynamic packagingCharge;
+  dynamic commission;
   dynamic platformfee;
   dynamic rejectedreason;
   dynamic timeinmins;
@@ -73,6 +74,7 @@ class Orderstatus extends StatefulWidget {
       required this.packagingCharge,
       this.ordergetid,
       this.delivaryAddress,
+      this.commission,
       this.delivaryAddresstype,
       this.delivaryFee,
       this.grandtotal,
@@ -878,6 +880,22 @@ class _OrderstatusState extends State<Orderstatus> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
+                      if(widget.commission!=0&& widget.commission!=null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                         Text(
+                            'Commission',
+                            style: CustomTextStyle.carttblack,
+                          ),
+                          Text(
+                            "₹ ${widget.commission}.00",
+                            style: CustomTextStyle.carttblack,
+                          ),
+                        ],
+                      ),
+                      if(widget.commission!=0&& widget.commission!=null)
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -51,7 +51,8 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AddToCartScreen extends StatefulWidget {
-  //dynamic vendorId;
+  dynamic vendorId;
+  dynamic commissionFilter;
   dynamic restaurantId;
   String? restaurantname;
   String? restaurantcity;
@@ -72,7 +73,8 @@ class AddToCartScreen extends StatefulWidget {
     super.key,
     this.isFromtab = false,
     required this.totalDis,
-   // this.vendorId,
+    this.vendorId,
+    this.commissionFilter,
     this.restaurantId,
     required this.fulladdress,
     this.restaurantcity,
@@ -126,7 +128,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
   List cartIdList = [];
   bool iscartloading = false;
   bool isClicked = false;
-
+ double? ordercommission;
   bool isButtonLoading = false;
   bool paymentsheet = false;
 
@@ -139,7 +141,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
   @override
   void initState() {
     super.initState();
-    
+     
      redirect.getredirectDetails();
      for (var item
                               in redirect.redirectLoadingDetails["data"]) {
@@ -175,11 +177,12 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                                                       ["restaurantDetails"][
                                                                   "parentAdminUserId"],);
 
-
-                                                                   foodcart.restaurantCommission(vendorId: foodcart
-                                                                          .getfoodcart["data"]
-                                                                      ["restaurantDetails"][
-                                                                  "parentAdminUserId"]);
+  foodcart.restaurantCommission();
+                
+                  // foodcart.restaurantCommission(vendorId: foodcart
+                  //                                                         .getfoodcart["data"]
+                  //                                                     ["restaurantDetails"][
+                  //                                                 "parentAdminUserId"]);
     });
    
   }
@@ -860,14 +863,18 @@ double finalPayable = calculateCommissionedPrice(
   aboveMaxPercentage: 20.0
 );
 
+ordercommission = widget.commissionFilter==  "orderBased"? finalPayable :0;
+ 
 
 
 
                             return BillSummaryWidget(
                              // amountForDistanceForDeliveryman:"₹${foodcart.getbillfoodcart["data"]["foods"]["amountForDistanceForDeliveryman"].toStringAsFixed(2)}",
-                              basePrice:  finalPayable.toStringAsFixed(2),
-                              
-                              // "${foodcart.getbillfoodcart["data"]["totalFoodAmount"].toStringAsFixed(2)}", 
+                              basePrice:  "${foodcart.getbillfoodcart["data"]["totalFoodAmount"].toStringAsFixed(2)}", 
+                                // "${foodcart.getbillfoodcart["data"]["totalFoodAmount"].toStringAsFixed(2)}", 
+                              commission: widget.commissionFilter==  "orderBased"?
+                              finalPayable.toStringAsFixed(2):0,
+                            
                               gstAndOtherCharges:
                                "${(foodcart.getbillfoodcart["data"]["totalGST"] + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).toStringAsFixed(2)}",
 
@@ -903,7 +910,7 @@ double finalPayable = calculateCommissionedPrice(
                                           foodcart.getbillfoodcart["data"]
                                                   ["totalFoodAmount"] -
                                               check;
-
+                        
                                       return (totcsamount +
                                               foodcart.getbillfoodcart["data"]
                                                   ["totalPackageCharges"] +
@@ -913,12 +920,13 @@ double finalPayable = calculateCommissionedPrice(
                                                   ["deliveryCharges"] +
                                               foodcart.getbillfoodcart["data"]
                                                   ["totalGST"] +
-                                                   foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] +
+                                                   foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] + ordercommission +
                                               tipAmount)
                                           .roundToDouble()
                                           .toStringAsFixed(2);
                                     })() : (() {
                                       dynamic totcsamount;
+                                      
                                       double couponAmount = double.parse(coupon
                                           .couponamount
                                           .replaceAll("₹", ""));
@@ -941,11 +949,11 @@ double finalPayable = calculateCommissionedPrice(
                                                   ["deliveryCharges"] +
                                                    foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] +
                                               foodcart.getbillfoodcart["data"]
-                                                  ["totalGST"])
+                                                  ["totalGST"] + ordercommission)
                                           .roundToDouble()
                                           .toStringAsFixed(2);
                                     })()}"
-                                  : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).roundToDouble().toStringAsFixed(2)}",
+                                  : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]+ ordercommission).roundToDouble().toStringAsFixed(2)}",
                             );
                           }
                         },
@@ -1829,7 +1837,7 @@ double finalPayable = calculateCommissionedPrice(
                                                         .isCouponApplied) {
                                                       ordercreate
                                                           .createOrderList(
-                                                         //   commision: 20,
+                                                           orderCommision: ordercommission,
                                                           //  commision: productviewprovider.restaurantDetails["categoryList"]["foods"]["commission"],
                                                               cartIdList:
                                                                   cartIdList,
@@ -1866,7 +1874,7 @@ double finalPayable = calculateCommissionedPrice(
                                                                       [
                                                                       "totalFoodAmount"],
                                                               // finalamount: totsamount,
-                                                              finalamount: totcsamount +
+                                                              finalamount: totcsamount + ordercommission +
                                                                   foodcart.getbillfoodcart["data"]
                                                                       ["totalPackageCharges"] +
                                                                   foodcart.getbillfoodcart["data"]["deliveryCharges"] +
@@ -1906,7 +1914,7 @@ double finalPayable = calculateCommissionedPrice(
                                                       print(cartIdList);
                                                       ordercreate
                                                           .createOrderList(
-                                                       //     commision: 20,
+                                                            orderCommision: ordercommission,
                                                           //  commision: productviewprovider.restaurantDetails["categoryList"]["foods"]["commission"],
                                                               cartIdList:
                                                                   cartIdList,
@@ -1940,7 +1948,8 @@ double finalPayable = calculateCommissionedPrice(
                                                               orderBasicamount:
                                                                   foodcart.getbillfoodcart["data"]
                                                                       ["totalFoodAmount"],
-                                                              finalamount: foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount+  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] ,
+                                                              finalamount: foodcart.getbillfoodcart["data"]["totalAmount"] +ordercommission +
+                                                               tipAmount+  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"] ,
                                                               deliveryCharges: foodcart.getbillfoodcart["data"]["deliveryCharges"],
                                                               tax: foodcart.getbillfoodcart["data"]["totalGST"],
                                                               tips: tipAmount,
@@ -2192,8 +2201,11 @@ double calculateCommissionedPrice({
 
   // Pick correct slab
   for (var com in commissionList) {
-    double key = double.parse(com["commissionKey"].toString());
-    double percent = double.parse(com["commissionPercentage"].toString());
+    // double key = double.parse(com["commissionKey"].toString());
+    // double percent = double.parse(com["commissionPercentage"].toString());
+
+     double key = (com["commissionKey"] ?? 0).toDouble();
+    double percent = (com["commissionPercentage"] ?? 0).toDouble();
 
     if (basePrice <= key) {
       matchedPercentage = percent;
@@ -2207,8 +2219,8 @@ double calculateCommissionedPrice({
   // Calculate commission amount
   double commissionAmount =matchedPercentage ;
 
-  // Final price after adding commission
-  double finalPrice = basePrice + commissionAmount;
+ 
+  double finalPrice = commissionAmount;
 
   return finalPrice;
 }
@@ -2238,7 +2250,7 @@ double calculateCommissionedPrice({
                       foodcart.getbillfoodcart["data"]["totalPackageCharges"] +
                       foodcart.getbillfoodcart["data"]["platformFeeCharge"] +
                       foodcart.getbillfoodcart["data"]["deliveryCharges"] +
-                      foodcart.getbillfoodcart["data"]["totalGST"] +
+                      foodcart.getbillfoodcart["data"]["totalGST"] + ordercommission +
                       tipAmount)
                   .roundToDouble()
                   .toStringAsFixed(2);
@@ -2259,11 +2271,12 @@ double calculateCommissionedPrice({
                       foodcart.getbillfoodcart["data"]["totalPackageCharges"] +
                       foodcart.getbillfoodcart["data"]["platformFeeCharge"] +
                       foodcart.getbillfoodcart["data"]["deliveryCharges"] +
-                      foodcart.getbillfoodcart["data"]["totalGST"]+ foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"])
+                      foodcart.getbillfoodcart["data"]["totalGST"]+  ordercommission +
+                      foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"])
                   .roundToDouble()
                   .toStringAsFixed(2);
             })()} | Place order"
-          : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount +  foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).roundToDouble().toStringAsFixed(2)} | Place order",
+          : "₹${(foodcart.getbillfoodcart["data"]["totalAmount"] + tipAmount +  ordercommission + foodcart.getbillfoodcart["data"]["foods"][0]["otherCharges"]).roundToDouble().toStringAsFixed(2)} | Place order",
       style: CustomTextStyle.loginbuttontext,
     );
   }

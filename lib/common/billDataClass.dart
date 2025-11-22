@@ -95,6 +95,7 @@ class BillSummaryWidget extends StatelessWidget {
   dynamic packagingCharge;
   dynamic deliverytip;
   dynamic platfomfee;
+  dynamic commission;
   final dynamic redirectLoadingDetails;
   BillSummaryWidget({
     super.key,
@@ -108,7 +109,9 @@ class BillSummaryWidget extends StatelessWidget {
  //   this.amountForDistanceForDeliveryman,
     this.packagingCharge,
     this.deliverytip,
-    this.platfomfee, this.redirectLoadingDetails
+    this.platfomfee,
+     this.redirectLoadingDetails,
+     this.commission
   });
 
 String getFormattedTotalKm() {
@@ -172,6 +175,10 @@ String getFormattedTotalKm() {
 
           10.toHeight,
           BillData(content: 'Packaging Charge', value: packagingCharge),
+          10.toHeight,
+           if ( commission != 0 )
+          BillData(content: 'Commission', value: commission),
+          if ( commission != 0 )
           10.toHeight,
           BillData(content: 'GST and Other Charges', value: gstAndOtherCharges),
           10.toHeight,

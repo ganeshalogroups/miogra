@@ -3,6 +3,7 @@
 // ignore_for_file: unused_local_variable, file_names, avoid_print, unnecessary_brace_in_string_interps, unnecessary_string_interpolations
 
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testing/Features/Foodmodule/SubAdmincontroller/Foodgetcontroller.dart';
 import 'package:testing/Features/Foodmodule/SubAdmincontroller/Getmenucountcontroller.dart';
 import 'package:testing/Features/Foodmodule/Foodcategorycontroller/Foodsearchlistgetcontroller.dart';
@@ -34,6 +35,7 @@ import '../../Foodcategorycontroller/Addfoodcontroller.dart';
 // ignore: must_be_immutable
 class Foodviewscreen extends StatefulWidget {
   dynamic restaurantId;
+  dynamic resRating;
   // String? fulladdress;
   // String? restaurantname;
   // String? restaurantcity;
@@ -60,6 +62,7 @@ class Foodviewscreen extends StatefulWidget {
   //  dynamic favouritestatus;
   Foodviewscreen({
     this.restaurantId,
+    this.resRating,
     this.isFromDishScreeen = false,
     // this.restaurantcity,
     // this.restaurantfoodtitle,
@@ -121,9 +124,9 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
   @override
   void initState() {
     super.initState();
-
+print("SSS FOOD SHOWING");
     forrefreshpage();
-
+ 
     _focusNode.addListener(_focusNodeListener);
     _focusNode.addListener(_fabVisibilityListener);
   }
@@ -399,6 +402,12 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
                             productviewprovider.restaurantDetails?['status'] ==
                                 true
                         ? AddProductButton(
+                          vendorId: productviewprovider
+                                    .restaurantDetails?['parentAdminUserId'] ??
+                                '',
+                                commissionFilter:  productviewprovider
+                                    .restaurantDetails?["servicesType"]["commissionType" ]??
+                                '',
                             isfromTabscreen: widget.isFromDishScreeen,
                             totalDis: widget.totalDis,
                             // restaurant: widget.restaurant,
@@ -456,10 +465,13 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
                         controller: _scrollController,
                         slivers: [
                           SliverAppBarWidget(
+                            
                             restaurantAvailable:
                                 productviewprovider.restaurantDetails,
+                              resRating: widget.resRating,  
                             offerPercentage: offerPercentage,
                             isFromDishScreen: widget.isFromDishScreeen,
+                            
                             restaurantimg:
                                 "$globalImageUrlLink${productviewprovider.restaurantDetails?['imgUrl']}", // Replace with actual image URL or variable
                             restaurantname: productviewprovider
@@ -472,6 +484,7 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
                             restaurantcity: productviewprovider
                                     .restaurantDetails?['address']["region"] ??
                                 '',
+                                
                             restaurantregion: productviewprovider
                                     .restaurantDetails?['address']["city"] ??
                                 '',
@@ -480,6 +493,7 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
                             // restaurant: widget.restaurant,
                             reviews: productviewprovider
                                 .restaurantDetails?["ratings"].length,
+                                
                           ),
                           SliverPersistentHeader(
                             delegate: _SearchBarDelegate(
@@ -504,11 +518,11 @@ class _FoodviewscreenState extends State<Foodviewscreen> {
                                       const CustomSizedBox(
                                         height: 15,
                                       ),
-                                      SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child:
+                                     // SingleChildScrollView(
+                                     //   scrollDirection: Axis.horizontal,
+                                      //  child:
                                             filtermethod(productviewprovider),
-                                      ),
+                                     // ),
                                       const CustomSizedBox(height: 10),
                                       productviewprovider
                                                           .restaurantDetails?[
@@ -676,7 +690,7 @@ var resCommission =  productviewprovider.restaurantDetails;
     );
   }
 
-  Row filtermethod(FoodProductviewPaginations productviewprovider) {
+  Widget filtermethod(FoodProductviewPaginations productviewprovider) {
     final bool isRestaurantAvailable =
         productviewprovider.restaurantDetails?['restaurantAvailable'] == true &&
             productviewprovider.restaurantDetails?['activeStatus'] ==
@@ -684,183 +698,328 @@ var resCommission =  productviewprovider.restaurantDetails;
             productviewprovider.restaurantDetails?['status'] == true;
 
     return nearbyreget.selectedIndex.value==0?  
-     Row(
-      children: [
-        // Non veg chip
-        GestureDetector(
-          onTap: isRestaurantAvailable && !isSelected
-              ? () {
-                  setState(() {
-                    vegisSelected = false;
-                    eggisSelected = false;
-                    isSelected = true;
-                    Timer(const Duration(milliseconds: 500), () {
-                      Timer(const Duration(milliseconds: 100), nonveg);
-                    });
-                  });
-                }
-              : null,
-          child: Opacity(
-            opacity: isRestaurantAvailable ? 1.0 : 0.5,
-            child: Container(
-              height: 25.h,
-              decoration: CustomBoxDecoration()
-                  .isBoxCheckedDecoration(isSelected: isSelected),
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child:
-               Row(
-                children: [
-                  reusableIcons(iconName: nonvegIcon),
-                  const SizedBox(width: 5),
-                  Text(
-                    "Non veg",
-                     style: TextStyle(
-      fontSize: 13,
-      color:isSelected? Colors.white:Customcolors.darkgrey,
-      fontFamily: 'Poppins-Regular'),
-                   // style: CustomTextStyle.chipgrey,
+     Container(
+      height: 50,
+    
+      decoration: BoxDecoration(
+          color: Color(0xFFF1F1F1),
+        borderRadius: BorderRadius.circular(6)
+      ),
+      width: double.maxFinite,
+       child: Row(
+       // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Non veg chip
+          Expanded(
+            child: GestureDetector(
+              onTap: isRestaurantAvailable && !isSelected
+                  ? () {
+                      setState(() {
+                        vegisSelected = false;
+                        eggisSelected = false;
+                        isSelected = true;
+                        Timer(const Duration(milliseconds: 500), () {
+                          Timer(const Duration(milliseconds: 100), nonveg);
+                        });
+                      });
+                    }
+                  : null,
+              child: Opacity(
+                opacity: isRestaurantAvailable ? 1.0 : 0.5,
+                child:
+                    //        Container(
+                    //         height: 25.h,
+                    //         decoration: CustomBoxDecoration()
+                    //             .isBoxCheckedDecoration(isSelected: isSelected),
+                    //         padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    //         child:
+                    //          Row(
+                    //           children: [
+                    //             reusableIcons(iconName: nonvegIcon),
+                    //             const SizedBox(width: 5),
+                    //             Text(
+                    //               "Non veg",
+                    //                style: TextStyle(
+                    // fontSize: 13,
+                    // color:isSelected? Colors.white:Customcolors.darkgrey,
+                    // fontFamily: 'Poppins-Regular'),
+                    //              // style: CustomTextStyle.chipgrey,
+                    //             ),
+                    //             if (isSelected)
+                    //               InkWell(
+                    //                 onTap: isRestaurantAvailable
+                    //                     ? () {
+                    //                         setState(() {
+                    //                           selectedFoodType = "";
+                    //                           isSelected = false;
+                    //                           showNonVegContent = true;
+                    //                           showPureVegContent = true;
+                    //                           showEggcontent = true;
+                    //                           callapi();
+                    //                         });
+                    //                       }
+                    //                     : null,
+                    //                 child: closeCircleIcon(size: 17),
+                    //               ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    Container(
+                     height: 50,
+                     //width: 0,
+                     padding: const EdgeInsets.symmetric(horizontal: 24),
+                     decoration: buildSegmentDecoration(isSelected),
+                     alignment: Alignment.center,
+                     child:  Row(
+                    children: [
+                    //  reusableIcons(iconName: nonvegIcon),
+                      const SizedBox(width: 5),
+                      Text(
+                        "Non-Veg",
+                          style: GoogleFonts.inter(
+                           fontSize: 16,
+                           fontWeight: FontWeight.w500,
+                           color:isSelected? Colors.white:Customcolors.addressColor
+                        ),
+                  
+                      ),
+                      // if (isSelected)
+                      //   InkWell(
+                      //     onTap: isRestaurantAvailable
+                      //         ? () {
+                      //             setState(() {
+                      //               selectedFoodType = "";
+                      //               isSelected = false;
+                      //               showNonVegContent = true;
+                      //               showPureVegContent = true;
+                      //               showEggcontent = true;
+                      //               callapi();
+                      //             });
+                      //           }
+                      //         : null,
+                      //     child: closeCircleIcon(size: 17),
+                      //   ),
+                    ],
                   ),
-                  if (isSelected)
-                    InkWell(
-                      onTap: isRestaurantAvailable
-                          ? () {
-                              setState(() {
-                                selectedFoodType = "";
-                                isSelected = false;
-                                showNonVegContent = true;
-                                showPureVegContent = true;
-                                showEggcontent = true;
-                                callapi();
-                              });
-                            }
-                          : null,
-                      child: closeCircleIcon(size: 17),
-                    ),
-                ],
+                   )
+                   
               ),
             ),
           ),
-        ),
-
-        const SizedBox(width: 10),
-
-        // Pure veg chip
-        GestureDetector(
-          onTap: isRestaurantAvailable && !vegisSelected
-              ? () {
-                  setState(() {
-                    isSelected = false;
-                    eggisSelected = false;
-                    vegisSelected = true;
-                    Timer(const Duration(milliseconds: 500), () {
-                      Timer(const Duration(milliseconds: 100), veg);
-                    });
-                  });
-                }
-              : null,
-          child: Opacity(
-            opacity: isRestaurantAvailable ? 1.0 : 0.5,
-            child: Container(
-              height: 25.h,
-              decoration: CustomBoxDecoration()
-                  .isBoxCheckedDecoration(isSelected: vegisSelected),
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  reusableIcons(iconName: vegIcon),
-                  const SizedBox(width: 5),
-                   Text(
-                    "Pure veg",
-                    style: TextStyle(
-      fontSize: 13,
-      color:vegisSelected? Colors.white:Customcolors.darkgrey,
-      fontFamily: 'Poppins-Regular'),
-                   // style: CustomTextStyle.chipgrey,
+       
+        //  const SizedBox(width: 10),
+       
+          // Pure veg chip
+          Expanded(
+            child: GestureDetector(
+              onTap: isRestaurantAvailable && !vegisSelected
+                  ? () {
+                      setState(() {
+                        isSelected = false;
+                        eggisSelected = false;
+                        vegisSelected = true;
+                        Timer(const Duration(milliseconds: 500), () {
+                          Timer(const Duration(milliseconds: 100), veg);
+                        });
+                      });
+                    }
+                  : null,
+              child: Opacity(
+                opacity: isRestaurantAvailable ? 1.0 : 0.5,
+                child: 
+                    //       Container(
+                    //         height: 25.h,
+                    //         decoration: CustomBoxDecoration()
+                    //             .isBoxCheckedDecoration(isSelected: vegisSelected),
+                    //         padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    //         child: Row(
+                    //           children: [
+                    //             reusableIcons(iconName: vegIcon),
+                    //             const SizedBox(width: 5),
+                    //              Text(
+                    //               "Pure veg",
+                    //               style: TextStyle(
+                    // fontSize: 13,
+                    // color:vegisSelected? Colors.white:Customcolors.darkgrey,
+                    // fontFamily: 'Poppins-Regular'),
+                    //              // style: CustomTextStyle.chipgrey,
+                    //             ),
+                    //             if (vegisSelected)
+                    //               InkWell(
+                    //                 onTap: isRestaurantAvailable
+                    //                     ? () {
+                    //                         setState(() {
+                    //                           selectedFoodType = "";
+                    //                           vegisSelected = false;
+                    //                           showNonVegContent = true;
+                    //                           showPureVegContent = true;
+                    //                           showEggcontent = true;
+                    //                           callapi();
+                    //                         });
+                    //                       }
+                    //                     : null,
+                    //                 child: closeCircleIcon(size: 17),
+                    //               ),
+                    //           ],
+                    //         ),
+                    //       ),
+                   
+                    Container(
+                     height: 50,
+                     padding: const EdgeInsets.symmetric(horizontal: 24),
+                     decoration: buildSegmentDecoration( vegisSelected),
+                     alignment: Alignment.center,
+                     child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    //  reusableIcons(iconName: vegIcon),
+                    //  const SizedBox(width: 5),
+                       Text(
+                        "Veg",
+                        style: GoogleFonts.inter(
+                           fontSize: 16,
+                           fontWeight: FontWeight.w500,
+                           color: vegisSelected? Colors.white:Customcolors.addressColor
+                        ),
+                    
+                      ),
+                      // if (vegisSelected)
+                      //   InkWell(
+                      //     onTap: isRestaurantAvailable
+                      //         ? () {
+                      //             setState(() {
+                      //               selectedFoodType = "";
+                      //               vegisSelected = false;
+                      //               showNonVegContent = true;
+                      //               showPureVegContent = true;
+                      //               showEggcontent = true;
+                      //               callapi();
+                      //             });
+                      //           }
+                      //         : null,
+                      //     child: closeCircleIcon(size: 17),
+                      //   ),
+                    ],
                   ),
-                  if (vegisSelected)
-                    InkWell(
-                      onTap: isRestaurantAvailable
-                          ? () {
-                              setState(() {
-                                selectedFoodType = "";
-                                vegisSelected = false;
-                                showNonVegContent = true;
-                                showPureVegContent = true;
-                                showEggcontent = true;
-                                callapi();
-                              });
-                            }
-                          : null,
-                      child: closeCircleIcon(size: 17),
-                    ),
-                ],
+                   )
+                   
               ),
             ),
           ),
-        ),
-
-        const SizedBox(width: 10),
-
-        // Egg chip
-        GestureDetector(
-          onTap: isRestaurantAvailable && !eggisSelected
-              ? () {
-                  setState(() {
-                    vegisSelected = false;
-                    isSelected = false;
-                    eggisSelected = true;
-                    Timer(const Duration(milliseconds: 500), () {
-                      Timer(const Duration(milliseconds: 100), egg);
-                    });
-                  });
-                }
-              : null,
-          child: Opacity(
-            opacity: isRestaurantAvailable ? 1.0 : 0.5,
-            child: Container(
-              height: 25.h,
-              decoration: CustomBoxDecoration()
-                  .isBoxCheckedDecoration(isSelected: eggisSelected),
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  reusableIcons(iconName: eggIcon),
-                  const SizedBox(width: 5),
-                   Text(
-                    "Egg",
-                     style: TextStyle(
-      fontSize: 13,
-      color:eggisSelected? Colors.white:Customcolors.darkgrey,
-      fontFamily: 'Poppins-Regular'),
-                  //  style: CustomTextStyle.chipgrey,
+       
+           //    const SizedBox(width: 10),
+       
+          // Egg chip
+          Expanded(
+            child: GestureDetector(
+              onTap: isRestaurantAvailable && !eggisSelected
+                  ? () {
+                      setState(() {
+                        vegisSelected = false;
+                        isSelected = false;
+                        eggisSelected = true;
+                        Timer(const Duration(milliseconds: 500), () {
+                          Timer(const Duration(milliseconds: 100), egg);
+                        });
+                      });
+                    }
+                  : null,
+              child: Opacity(
+                opacity: isRestaurantAvailable ? 1.0 : 0.5,
+                child:
+                    //        Container(
+                    //         height: 25.h,
+                    //         decoration: CustomBoxDecoration()
+                    //             .isBoxCheckedDecoration(isSelected: eggisSelected),
+                    //         padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    //         child: Row(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: [
+                    //             reusableIcons(iconName: eggIcon),
+                    //             const SizedBox(width: 5),
+                    //              Text(
+                    //               "Egg",
+                    //                style: TextStyle(
+                    // fontSize: 13,
+                    // color:eggisSelected? Colors.white:Customcolors.darkgrey,
+                    // fontFamily: 'Poppins-Regular'),
+                    //             //  style: CustomTextStyle.chipgrey,
+                    //             ),
+                    //             if (eggisSelected)
+                    //               InkWell(
+                    //                 onTap: isRestaurantAvailable
+                    //                     ? () {
+                    //                         setState(() {
+                    //                           selectedFoodType = "";
+                    //                           eggisSelected = false;
+                    //                           showNonVegContent = true;
+                    //                           showPureVegContent = true;
+                    //                           showEggcontent = true;
+                    //                           callapi();
+                    //                         });
+                    //                       }
+                    //                     : null,
+                    //                 child: closeCircleIcon(size: 17),
+                    //               ),
+                    //           ],
+                    //         ),
+                    //       ),
+                   
+                    Container(
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            decoration: buildSegmentDecoration(eggisSelected),
+            alignment: Alignment.center,
+            child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                   //reusableIcons(iconName: eggIcon),
+                     // const SizedBox(width: 5),
+                       Text(
+                        "Egg",
+                          style: GoogleFonts.inter(
+                           fontSize: 16,
+                           fontWeight: FontWeight.w500,
+                           color:eggisSelected?  Colors.white:Customcolors.addressColor
+                        ),
+                   
+                      ),
+                      // if (eggisSelected)
+                      //   InkWell(
+                      //     onTap: isRestaurantAvailable
+                      //         ? () {
+                      //             setState(() {
+                      //               selectedFoodType = "";
+                      //               eggisSelected = false;
+                      //               showNonVegContent = true;
+                      //               showPureVegContent = true;
+                      //               showEggcontent = true;
+                      //               callapi();
+                      //             });
+                      //           }
+                      //         : null,
+                      //     child: closeCircleIcon(size: 17),
+                      //   ),
+                    ],
                   ),
-                  if (eggisSelected)
-                    InkWell(
-                      onTap: isRestaurantAvailable
-                          ? () {
-                              setState(() {
-                                selectedFoodType = "";
-                                eggisSelected = false;
-                                showNonVegContent = true;
-                                showPureVegContent = true;
-                                showEggcontent = true;
-                                callapi();
-                              });
-                            }
-                          : null,
-                      child: closeCircleIcon(size: 17),
-                    ),
-                ],
+                     
+                    )
+                   
               ),
             ),
           ),
-        ),
-
-        const SizedBox(width: 10),
-      ],
-    ) : Row();
+       
+          //const SizedBox(width: 10),
+        ],
+           ),
+     ) : Row();
   }
+BoxDecoration buildSegmentDecoration(bool isSelected) {
+  return BoxDecoration(
+    color: isSelected ? Customcolors.darkpinkColor: const Color(0xFFF1F1F1),
+    borderRadius: BorderRadius.circular( isSelected?  6:0),
+  );
+}
 
   Center fssaimethod(FoodProductviewPaginations value) {
     return Center(
@@ -1233,3 +1392,7 @@ class _SearchBarDelegate extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
+
+
+
+

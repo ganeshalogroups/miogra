@@ -2,6 +2,11 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:provider/provider.dart';
+import 'package:testing/Features/Foodmodule/Foodcategorycontroller/Bannercontroller.dart';
+import 'package:testing/Features/Foodmodule/SubAdmincontroller/Getnearbyrescontroller.dart';
 import 'package:testing/utils/Const/constValue.dart';
 import 'package:testing/utils/CustomColors/Customcolors.dart';
 import 'package:flutter/cupertino.dart';
@@ -99,7 +104,17 @@ class TopBannerclass extends StatefulWidget {
 class _TopBannerclassState extends State<TopBannerclass> {
   int _currentIndex = 0;
   final SwiperController _controller = SwiperController();
+   Nearbyrescontroller nearbyreget = Get.put(Nearbyrescontroller());
+  
+@override
+  void initState() {
+    // TODO: implement initState
 
+     Provider.of<HomepageProvider>(context, listen: false).getBanner(
+          categoryFilter:
+              nearbyreget.selectedIndex.value == 0 ? "restaurant" : "shop");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -452,6 +452,7 @@ import 'package:provider/provider.dart';
 class ResturantsCard extends StatefulWidget {
   FavoriteRestaurant restaurant;
   dynamic nearbyresget;
+  dynamic resRating;
   FavoritesProvider favoritesProvider;
   double latitude;
   double langitude;
@@ -465,6 +466,7 @@ class ResturantsCard extends StatefulWidget {
       required this.nearbyresget,
       required this.latitude,
       required this.offervalue,
+      this.resRating,
       // required this.isfavtr,
       required this.langitude});
 
@@ -538,6 +540,7 @@ class _ResturantsCardState extends State<ResturantsCard> {
 
         Get.to(
           Foodviewscreen(
+            resRating: widget.resRating,
             totalDis: 5,
             restaurantId: restaurant["_id"],
           ),
@@ -605,7 +608,7 @@ class _ResturantsCardState extends State<ResturantsCard> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.3.w,
                     child: Text(
-                     " ${restaurant["name"].toString().capitalizeFirst}",
+                    " ${restaurant["name"].toString().capitalizeFirst}",
                   
                       overflow: TextOverflow.clip,
                      // style: CustomTextStyle.googlebuttontext,
@@ -621,7 +624,7 @@ class _ResturantsCardState extends State<ResturantsCard> {
                       ? 
                     Row(
                 children: [
-                 Image.asset("assets/images/stars1.png",height: 20.sp,),
+                 Image.asset("assets/images/star_icon.png",height: 16.sp,),
                             SizedBox(width: 5,),
                  ShaderMask(
   shaderCallback: (bounds) => const LinearGradient(
@@ -649,7 +652,7 @@ class _ResturantsCardState extends State<ResturantsCard> {
                   //         size: 23.sp,
                   //         color: Color(0xFF623089)
                   //       ),
-                     Image.asset("assets/images/stars1.png",height: 20.sp,),
+                     Image.asset("assets/images/star_icon.png",height: 16.sp,),
                             SizedBox(width: 5,),
                 ShaderMask(
   shaderCallback: (bounds) => const LinearGradient(
@@ -792,49 +795,88 @@ class _ResturantsCardState extends State<ResturantsCard> {
                            SizedBox(width: 10,)
                 ],
               ),
-              const CustomSizedBox(height: 5),
+              const CustomSizedBox(height: 10),
 
               Row(children: [
-              RichText(
-  text: TextSpan(
-    children: [
-      TextSpan(
-        text: 'Delivery Within ',
-        style: GoogleFonts.montserrat(
-          fontSize: 10.sp,
-          color: Colors.black,
-         // fontFamily: 'Poppins-Medium',
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      TextSpan(
-        text: '10 Min',
-        style: TextStyle(
-          fontSize: 11.sp,
-          color: Colors.green,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      TextSpan(
-        text: ' To ',
-        style: TextStyle(
-          fontSize: 11.sp,
-          color: Colors.black,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-      TextSpan(
-        text: '20 Min',
-        style: TextStyle(
-          fontSize: 11.sp,
-          color: Colors.green,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    ],
-  ),
-),
+//               RichText(
+//   text: TextSpan(
+//     children: [
+//       TextSpan(
+//         text: 'Delivery Within ',
+//         style: GoogleFonts.montserrat(
+//           fontSize: 10.sp,
+//           color: Colors.black,
+//          // fontFamily: 'Poppins-Medium',
+//           fontWeight: FontWeight.w600,
+//         ),
+//       ),
+//       TextSpan(
+//         text: '10 Min',
+//         style: TextStyle(
+//           fontSize: 11.sp,
+//           color: Colors.green,
+//           fontWeight: FontWeight.w700,
+//         ),
+//       ),
+//       TextSpan(
+//         text: ' To ',
+//         style: TextStyle(
+//           fontSize: 11.sp,
+//           color: Colors.black,
+//           fontWeight: FontWeight.w800,
+//         ),
+//       ),
+//       TextSpan(
+//         text: '20 Min',
+//         style: TextStyle(
+//           fontSize: 11.sp,
+//           color: Colors.green,
+//           fontWeight: FontWeight.w700,
+//         ),
+//       ),
+//     ],
+//   ),
+// ),
+// Text("Your order is on the way!",
+//  style: TextStyle(
+//           fontSize: 13.sp,
+//           color: Customcolors.addressColor,
+//           fontFamily: 'Poppins-Medium',
+//           fontWeight: FontWeight.w600,
+//         ),),
 
+
+ 
+                      const Image(
+                        image: AssetImage("assets/images/discount.png"),
+                        height: 15,
+                        width: 20,
+                      ),
+                      (offerPercentage != null &&
+                              offerPercentage.toString().isNotEmpty &&
+                              offerPercentage != 0)
+                          ? Text(
+                              "Enjoy up to $offerPercentage% off your meal",
+                              style: CustomTextStyle.darkgrey,
+                            )
+                          : Consumer<HomepageProvider>(
+                              builder: (context, value, child) {
+                              if (value.isLoading) {
+                                return const CupertinoActivityIndicator();
+                              } else if (value.orderModel == null ||
+                                  value.orderModel.isEmpty) {
+                                return const Center(
+                                    child: Text(
+                                        "No deals right now, but stay tuned!",
+                                        style: CustomTextStyle.darkgrey));
+                              } else {
+                                return Text(
+                                  "Enjoy up to ${value.orderModel["appConfigValue"]["value"]}% off your meal",
+                                  style: CustomTextStyle.darkgrey,
+                                );
+                              }
+                            }),
+                  
                 Spacer(),
                 Text("Ratings",
                           // style: CustomTextStyle.boldgrey),

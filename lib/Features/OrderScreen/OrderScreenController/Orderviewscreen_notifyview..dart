@@ -517,6 +517,22 @@ TextStyle getStatusTextStyle(String status) {
                           ),
                         ],
                       ),
+                     const SizedBox(height: 10),
+                  if(   value.ordergetbyorderModel['amountDetails']['commissionAmount']!=0 && value.ordergetbyorderModel['amountDetails']['commissionAmount']!=null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Commission',
+                            style: CustomTextStyle.carttblack,
+                          ),
+                          Text(
+                            "₹ ${value.ordergetbyorderModel['amountDetails']['commissionAmount'].toStringAsFixed(2)}",
+                            style: CustomTextStyle.carttblack,
+                          ),
+                        ],
+                      ),
+                        if(   value.ordergetbyorderModel['amountDetails']['commissionAmount']!=0 && value.ordergetbyorderModel['amountDetails']['commissionAmount']!=null)
                       const SizedBox(height: 10),
                       if(value.ordergetbyorderModel['amountDetails']['tips']!=0.0)
                       Row(

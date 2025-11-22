@@ -20,6 +20,8 @@ import 'package:provider/provider.dart';
 class AddProductButton extends StatefulWidget {
   dynamic totalDis;
   dynamic restaurantId;
+  dynamic vendorId;
+  dynamic commissionFilter;
   String? restaurantname;
   String? restaurantcity;
   String? restaurantregion;
@@ -39,6 +41,8 @@ class AddProductButton extends StatefulWidget {
     super.key,
     this.totalDis,
     this.restaurantId,
+    this.vendorId,
+    this.commissionFilter,
     this.restaurantcity,
     this.restaurantfoodtitle,
     this.restaurantname,
@@ -116,7 +120,11 @@ class _AddProductButtonState extends State<AddProductButton> {
                   : Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: CustomContainerDecoration.gradientbuttondecoration(),
+                   //   decoration: CustomContainerDecoration.gradientbuttondecoration(),
+                    decoration: BoxDecoration(
+                      color: Customcolors.darkpinkColor,
+                      borderRadius: BorderRadius.circular(5)
+                    ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -150,11 +158,13 @@ print("Beeeeeeeeeee  ${cartProvider.totalDis}");
 
 
                                                print('$totalDistance  =====> hello world1');
-
+foodcart.restaurantCommission();
 
                                        Future.delayed(Duration.zero,() {
                                         
                                                  Get.off(AddToCartScreen(
+                                                  vendorId: widget.vendorId,
+                                                  commissionFilter: widget.commissionFilter,
                                                         isFromtab        : widget.isfromTabscreen,
                                                         // additionalImages : widget.additionalImages,
                                                         // totalDis: widget.totalDis,

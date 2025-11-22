@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:testing/utils/CustomColors/Customcolors.dart';
 
 class CustomButton extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
@@ -22,10 +23,10 @@ class CustomButton extends StatelessWidget {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
- Color(0xFFAE62E8),
- Color(0xFF623089)
-      //   Color(0xFFF98322), // Color code for #F98322
-        // Color(0xFFEE4C46), // End color
+//  Color(0xFFAE62E8),
+//  Color(0xFF623089)
+      Customcolors.darkpinkColor,
+      Customcolors.darkpinkColor,
       ],
     ),
   });

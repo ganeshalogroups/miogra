@@ -36,7 +36,7 @@ class Ordercontroller extends GetxController {
 
   
   Future<void> createOrderList({
-  //  required dynamic commision,
+    required dynamic orderCommision,
     required List cartIdList,
     required dynamic productCategoryid,
     required dynamic userid,
@@ -83,7 +83,7 @@ class Ordercontroller extends GetxController {
         "dropAddress": dropAddress,
         "type": "mobile",
         "amountDetails": {
-          
+          "commissionAmount": orderCommision,
           "cartAmount": cartAmount,
           "cartFoodAmount": cartFoodamount,
           "couponsAmount": couponsamount,
@@ -122,6 +122,7 @@ class Ordercontroller extends GetxController {
         "dropAddress": dropAddress,
         "type": "mobile",
         "amountDetails": {
+          "commissionAmount": orderCommision,
           "cartAmount": cartAmount,
           "cartFoodAmount": cartFoodamount,
           "couponsAmount": 0, // No coupon applied

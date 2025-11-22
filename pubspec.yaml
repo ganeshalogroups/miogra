@@ -144,7 +144,7 @@ flutter:
   assets:    
     - assets/Svg_Images/discount.svg 
     - assets/Svg_Images/   
-    - assets/images/                   
+    - assets/images/                  
     - assets/images/fastx new 1.png                   
     - assets/animations/                   
     - assets/profileicons/     

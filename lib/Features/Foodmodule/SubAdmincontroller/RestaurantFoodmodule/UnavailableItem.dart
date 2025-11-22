@@ -1,4 +1,3 @@
-
 // ignore_for_file: avoid_print, use_build_context_synchronously, file_names, unnecessary_null_comparison, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,6 +15,7 @@ import 'package:readmore/readmore.dart';
 import 'package:get/get.dart';
 
 class UnavailableItem extends StatelessWidget {
+  final dynamic rescommission;
   final dynamic foodIndexvalue;
   final dynamic resid;
   final dynamic totalDis;
@@ -26,18 +26,18 @@ class UnavailableItem extends StatelessWidget {
   final dynamic restaurantAvailable;
   final ValueNotifier<int> itemCountNotifier;
 
-  const UnavailableItem({
-    super.key,
-    required this.offerPercentage,
-    this.foodIndexvalue,
-    required this.resid,
-    required this.totalDis,
-    required this.index,
-    required this.restaurantAvailable,
-    this.model,
-    required this.restaurantname,
-    required this.itemCountNotifier,
-  });
+  const UnavailableItem(
+      {super.key,
+      required this.offerPercentage,
+      this.foodIndexvalue,
+      required this.resid,
+      required this.totalDis,
+      required this.index,
+      required this.restaurantAvailable,
+      this.model,
+      required this.restaurantname,
+      required this.itemCountNotifier,
+      required this.rescommission});
 
   @override
   Widget build(BuildContext context) {
@@ -59,226 +59,268 @@ class UnavailableItem extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 100,
-                        width: 90,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          child: ColorFiltered(
-                            colorFilter: const ColorFilter.mode(
-                              Colors.grey,
-                              BlendMode.saturation,
-                            ),
-                            child: CachedNetworkImage(
-                              memCacheHeight: 200,
-                              memCacheWidth: 200,
-                              placeholder: (context, url) => Image.asset(fastxdummyImg),
-                              errorWidget: (context, url, error) => Image.asset(fastxdummyImg),
-                              width: 90,
-                              imageUrl: "$globalImageUrlLink${foodIndexvalue.foodImgUrl!}",
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                      ),
-                      if (foodIndexvalue.iscustomizable == true)
-                        const Text("Customisable", style: CustomTextStyle.addressfetch),
-                    ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 110,
+                width: 110,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: ColorFiltered(
+                    colorFilter: const ColorFilter.mode(
+                      Colors.grey,
+                      BlendMode.saturation,
+                    ),
+                    child: CachedNetworkImage(
+                      memCacheHeight: 200,
+                      memCacheWidth: 200,
+                      placeholder: (context, url) => Image.asset(fastxdummyImg),
+                      errorWidget: (context, url, error) =>
+                          Image.asset(fastxdummyImg),
+                      width: 90,
+                      imageUrl:
+                          "$globalImageUrlLink${foodIndexvalue.foodImgUrl!}",
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 15),
-                      Row(
+              ),
+              // if (foodIndexvalue.iscustomizable == true)
+              //   const Text("Customisable", style: CustomTextStyle.addressfetch),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //   const SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 35),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: Text(
-                              foodIndexvalue.foodName.toString().capitalizeFirst.toString(),
+                              foodIndexvalue.foodName
+                                  .toString()
+                                  .capitalizeFirst
+                                  .toString(),
                               overflow: TextOverflow.clip,
-                            //  style: CustomTextStyle.googlebuttontext,
-                            style: TextStyle(
-      fontSize: 12.h,
-      fontWeight: FontWeight.w600,
-      color: Customcolors.DECORATION_BLACK,
-      fontFamily: 'Poppins-Medium'),
+                              //  style: CustomTextStyle.googlebuttontext,
+                              style: TextStyle(
+                                  fontSize: 12.h,
+                                  fontWeight: FontWeight.w600,
+                                  color: Customcolors.DECORATION_BLACK,
+                                  fontFamily: 'Poppins-Medium'),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8, top: 8),
-                            child: Builder(
-                              builder: (context) {
-                                String foodType = foodIndexvalue.foodType ?? '';
-                                String assetPath;
+                          // Padding(
+                          //   padding: const EdgeInsets.only(right: 8, top: 8),
+                          //   child: Builder(
+                          //     builder: (context) {
+                          //       String foodType = foodIndexvalue.foodType ?? '';
+                          //       String assetPath;
 
-                                switch (foodType) {
-                                  case 'nonveg':
-                                    assetPath = "assets/images/Non veg.png";
-                                    break;
-                                  case 'veg':
-                                    assetPath = "assets/images/veg.png";
-                                    break;
-                                  case 'egg':
-                                    assetPath = "assets/images/egg.jpg";
-                                    break;
-                                  default:
-                                    assetPath = '';
-                                }
+                          //       switch (foodType) {
+                          //         case 'nonveg':
+                          //           assetPath = "assets/images/Non veg.png";
+                          //           break;
+                          //         case 'veg':
+                          //           assetPath = "assets/images/veg.png";
+                          //           break;
+                          //         case 'egg':
+                          //           assetPath = "assets/images/egg.jpg";
+                          //           break;
+                          //         default:
+                          //           assetPath = '';
+                          //       }
 
-                                return assetPath.isNotEmpty
-                                    ? iconFunction(iconname: assetPath)
-                                    : const SizedBox.shrink();
-                              },
-                            ),
+                          //       return assetPath.isNotEmpty
+                          //           ? iconFunction(iconname: assetPath)
+                          //           : const SizedBox.shrink();
+                          //     },
+                          //   ),
+                          // )
+ const SizedBox(height: 10),
+
+                    /// Offer price block
+                    (offerPercentage != null &&
+                            offerPercentage.toString().isNotEmpty &&
+                            offerPercentage != 0)
+                        ? Text(
+                            " ₹${foodIndexvalue.iscustomizable == true ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice).toStringAsFixed(0) : foodIndexvalue.food!.customerPrice.toStringAsFixed(0)}",
+                            // style: CustomTextStyle.foodpricetext,
+                            style: TextStyle(
+                                fontSize: 14.h,
+                                fontWeight: FontWeight.w500,
+                                color: Customcolors.DECORATION_BLACK,
+                                fontFamily: 'Poppins-Medium'),
                           )
+                        : Obx(() {
+                            if (redirect.isredirectLoading.isTrue) {
+                              return const Center(
+                                  child: CupertinoActivityIndicator());
+                            } else if (redirect.redirectLoadingDetails ==
+                                    null ||
+                                redirect.redirectLoadingDetails["data"] ==
+                                    null) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    " ₹${foodIndexvalue.iscustomizable == true ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice).toStringAsFixed(0) : foodIndexvalue.food!.customerPrice.toStringAsFixed(0)}",
+                                    // style: CustomTextStyle.foodpricetext,
+                                    style: TextStyle(
+                                        fontSize: 14.h,
+                                        fontWeight: FontWeight.w500,
+                                        color: Customcolors.DECORATION_BLACK,
+                                        fontFamily: 'Poppins-Medium'),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              double offerValue = 0;
+                              for (var item
+                                  in redirect.redirectLoadingDetails["data"]) {
+                                if (item["key"] == "offerValue") {
+                                  offerValue = double.tryParse(
+                                          item["value"].toString()) ??
+                                      0;
+                                  break;
+                                }
+                              }
+
+                              return Text(
+                                " ₹${foodIndexvalue.iscustomizable == true ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice).toStringAsFixed(0) : foodIndexvalue.food!.customerPrice.toStringAsFixed(0)}",
+                                style: TextStyle(
+                                    fontSize: 14.h,
+                                    fontWeight: FontWeight.w500,
+                                    color: Customcolors.DECORATION_BLACK,
+                                    fontFamily: 'Poppins-Medium'),
+                              );
+                            }
+                          }),
+
                         ],
                       ),
-                      // const CustomSizedBox(height: 5),
-                      // if (foodIndexvalue.foodDiscription?.toString().isNotEmpty == true &&
-                      //     foodIndexvalue.foodDiscription!.toString() != "null")
-                      //   ReadMoreText(
-                      //     (foodIndexvalue.foodDiscription!.toString()),
-                      //     style: CustomTextStyle.foodDescription,
-                      //     textAlign: TextAlign.justify,
-                      //     trimLines: 3,
-                      //     colorClickableText: Colors.blue,
-                      //     trimMode: TrimMode.Line,
-                      //     trimCollapsedText: 'See more',
-                      //     trimExpandedText: 'See less',
-                      //     moreStyle: CustomTextStyle.boldblack12,
-                      //     lessStyle: const TextStyle(
-                      //       fontSize: 12,
-                      //       fontWeight: FontWeight.bold,
-                      //       color: Customcolors.darkpurple,
-                      //     ),
-                      //   ),
-                      const SizedBox(height: 10),
+                    ),
 
-                      /// Offer price block
-                      (offerPercentage != null &&
-                              offerPercentage.toString().isNotEmpty &&
-                              offerPercentage != 0)
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  " ₹${foodIndexvalue.iscustomizable == true
-                                      ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                          ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice
-                                          : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice)
-                                          .toStringAsFixed(0)
-                                      : foodIndexvalue.food!.customerPrice.toStringAsFixed(0)}",
-                                 // style: CustomTextStyle.foodpricetext,
-                                  style: TextStyle(
-      fontSize: 12.h,
-      fontWeight: FontWeight.w600,
-      color: Customcolors.DECORATION_BLACK,
-      fontFamily: 'Poppins-Medium'),
-                                ),
-                                // const SizedBox(width: 1),
-                                // Text(
-                                //   " ₹${foodIndexvalue.iscustomizable == true
-                                //       ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                //           ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice+(foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice*offerPercentage/100)
-                                //           : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice+(foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice*offerPercentage/100))
-                                //          .roundToDouble() .toStringAsFixed(2)
-                                //       : (foodIndexvalue.food!.customerPrice +(foodIndexvalue.food!.customerPrice*offerPercentage/100)).roundToDouble().toStringAsFixed(2)}",
-                                //   style: CustomTextStyle.strikered,
-                                // ),
-                                const Spacer(),
-                              ],
-                            )
-                          : Obx(() {
-                              if (redirect.isredirectLoading.isTrue) {
-                                return const Center(child: CupertinoActivityIndicator());
-                              } else if (redirect.redirectLoadingDetails == null ||
-                                  redirect.redirectLoadingDetails["data"] == null) {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      " ₹${foodIndexvalue.iscustomizable == true
-                                          ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                              ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice
-                                              : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice)
-                                              .toStringAsFixed(0)
-                                          : foodIndexvalue.food!.customerPrice.toStringAsFixed(0)}",
-                                      style: CustomTextStyle.foodpricetext,
-                                    ),
-                                    const SizedBox(width: 1),
-                                    Text(
-                                      " ₹${foodIndexvalue.iscustomizable == true
-                                          ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                              ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice+(foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice*20/100)
-                                              : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice+( foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice*20/100))
-                                              .roundToDouble().toStringAsFixed(2)
-                                          : (foodIndexvalue.food!.customerPrice+(foodIndexvalue.food!.customerPrice*20/100)).roundToDouble().toStringAsFixed(2)}",
-                                      style: CustomTextStyle.strikered,
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                );
-                              } else {
-                                double offerValue = 0;
-                                for (var item in redirect.redirectLoadingDetails["data"]) {
-                                  if (item["key"] == "offerValue") {
-                                    offerValue = double.tryParse(item["value"].toString()) ?? 0;
-                                    break;
-                                  }
-                                }
+                    const SizedBox(height: 0),
 
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      " ₹${foodIndexvalue.iscustomizable == true
-                                          ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                              ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice
-                                              : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice)
-                                              .toStringAsFixed(0)
-                                          : foodIndexvalue.food!.customerPrice.toStringAsFixed(0)}",
-                                      style: CustomTextStyle.foodpricetext,
-                                    ),
-                                    const SizedBox(width: 1),
-                                    if (offerValue != null)
-                                      Text(
-                                        " ₹${foodIndexvalue.iscustomizable == true
-                                            ? (foodIndexvalue.customizedFood!.addVariants!.isNotEmpty
-                                                ? foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice+(foodIndexvalue.customizedFood!.addVariants![0].variantType![0].customerPrice*offerValue/100)
-                                                : foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice+(foodIndexvalue.customizedFood!.addOns![0].addOnsType![0].customerPrice*offerValue/100))
-                                                .roundToDouble().toStringAsFixed(2)
-                                            : (foodIndexvalue.food!.customerPrice+(foodIndexvalue.food!.customerPrice*offerValue/100)).roundToDouble().toStringAsFixed(2)}",
-                                        style: CustomTextStyle.strikered,
-                                      ),
-                                    const Spacer(),
-                                  ],
-                                );
+                    Text(
+                      restaurantname,
+                      style: TextStyle(
+                          fontSize: 12.h,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF424242),
+                          fontFamily: 'Poppins-SemiBold'),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8, top: 8),
+                          child: Builder(
+                            builder: (context) {
+                              String foodType = foodIndexvalue.foodType ?? '';
+                              String assetPath;
+
+                              switch (foodType) {
+                                case 'nonveg':
+                                  assetPath = "assets/images/Non veg.png";
+                                  break;
+                                case 'veg':
+                                  assetPath = "assets/images/veg.png";
+                                  break;
+                                case 'egg':
+                                  assetPath = "assets/images/egg.jpg";
+                                  break;
+                                default:
+                                  assetPath = '';
                               }
-                            }),
-                    ],
-                  ),
+
+                              return assetPath.isNotEmpty
+                                  ? iconFunction(iconname: assetPath)
+                                  : const SizedBox.shrink();
+                            },
+                          ),
+                        ),
+                        (offerPercentage != null &&
+                                offerPercentage.toString().isNotEmpty &&
+                                offerPercentage != 0)
+                            ? Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: ButtonNew(
+                                  totalDis: totalDis,
+                                  restaurantname: restaurantname.toString(),
+                                  itemcountNotifier: itemCountNotifier,
+                                  restaurantId: resid,
+                                  index: index,
+                                  model: model,
+                                ),
+                              )
+                            : Obx(() {
+                                if (redirect.isredirectLoading.isTrue) {
+                                  return const Center(
+                                      child: CupertinoActivityIndicator());
+                                } else if (redirect.redirectLoadingDetails ==
+                                        null ||
+                                    redirect.redirectLoadingDetails["data"] ==
+                                        null) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: ButtonNew(
+                                      totalDis: totalDis,
+                                      restaurantname: restaurantname.toString(),
+                                      itemcountNotifier: itemCountNotifier,
+                                      restaurantId: resid,
+                                      index: index,
+                                      model: model,
+                                    ),
+                                  );
+                                } else {
+                                  double offerValue = 0;
+                                  for (var item in redirect
+                                      .redirectLoadingDetails["data"]) {
+                                    if (item["key"] == "offerValue") {
+                                      offerValue = item["value"] != null
+                                          ? double.tryParse(
+                                                  item["value"].toString()) ??
+                                              0
+                                          : 0;
+                                      break;
+                                    }
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: ButtonNew(
+                                      totalDis: totalDis,
+                                      restaurantname: restaurantname.toString(),
+                                      itemcountNotifier: itemCountNotifier,
+                                      restaurantId: resid,
+                                      index: index,
+                                      model: model,
+                                    ),
+                                  );
+                                }
+                              }),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
 }
-
-

@@ -65,7 +65,7 @@ class FoodViewPagedList extends StatelessWidget {
             );
           },
         ),
-        InlineBannerAdWidget()
+        BottomBannerAdWidget()
       ],
     );
   }

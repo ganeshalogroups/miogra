@@ -17,7 +17,7 @@ class _InlineBannerAdWidgetState extends State<InlineBannerAdWidget> {
   void initState() {
     super.initState();
     _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Test ID
+      adUnitId: 'ca-app-pub-3382639064997296/2421931625', // Test ID
       size: AdSize.fullBanner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -124,3 +124,63 @@ class _InlineBannerAdWidgetState extends State<InlineBannerAdWidget> {
 //     );
 //   }
 // }
+
+
+
+
+
+
+
+
+
+
+class   BottomBannerAdWidget extends StatefulWidget {
+  const BottomBannerAdWidget({super.key});
+
+  @override
+  State<BottomBannerAdWidget> createState() => _BottomBannerAdWidgetState();
+}
+
+class _BottomBannerAdWidgetState extends State<BottomBannerAdWidget> {
+  late BannerAd _bannerAd;
+  bool _isLoaded = false;
+  
+
+  @override
+  void initState() {
+    super.initState();
+    _bannerAd = BannerAd(
+      adUnitId: 'ca-app-pub-3382639064997296/5754671972', // Test ID
+      size: AdSize.fullBanner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) => setState(() => _isLoaded = true),
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          debugPrint('Inline banner failed: $error');
+        },
+      ),
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_isLoaded) return const SizedBox(height: 60); // reserve space
+
+    return Center(
+      child: SizedBox(
+        width: _bannerAd.size.width.toDouble(),
+        height: _bannerAd.size.height.toDouble(),
+        child: AdWidget(ad: _bannerAd),
+      ),
+    );
+  }
+}
+
+

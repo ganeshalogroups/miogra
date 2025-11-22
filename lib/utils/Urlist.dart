@@ -4,12 +4,11 @@ import 'package:testing/utils/Const/ApiConstvariables.dart';
 
 class API {
  
-   static String baseUrl = "https://dev.miogra.com/";
-   static String microservicedev = "https://dev.miogra.com/";
+  //  static String baseUrl = "https://dev.miogra.com/";
+  //  static String microservicedev = "https://dev.miogra.com/";
 
-   
-  //  static String baseUrl = "https://miogra.com/";
-  //  static String microservicedev = "https://miogra.com/";
+   static String baseUrl = "https://backend.miogra.com/";
+   static String microservicedev = "https://backend.miogra.com/";
 
    
 static String vendorbasedcash ="${microservicedev}api/user/adminUser/finduserById";

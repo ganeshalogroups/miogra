@@ -748,22 +748,22 @@ class _LoginscreenState extends State<Loginscreen> with WidgetsBindingObserver {
                             const SizedBox(
                               height: 20,
                             ),
-                            Center(
-                              child: Text(
-                                // "Delivering Delight\nto Your Doorstep!",
-                                "#1 Dining App",
-                                //  style: CustomTextStyle.bigboldtext,
-                                style: TextStyle(
-                                    fontSize: 30.sp,
-                                    //  fontWeight: FontWeight.w800,
-                                    color: Customcolors.DECORATION_BLACK,
-                                    fontFamily: 'Poppins-Bold'),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
+                            // Center(
+                            //   child: Text(
+                            //     // "Delivering Delight\nto Your Doorstep!",
+                            //     "#1 Dining App",
+                            //     //  style: CustomTextStyle.bigboldtext,
+                            //     style: TextStyle(
+                            //         fontSize: 30.sp,
+                            //         //  fontWeight: FontWeight.w800,
+                            //         color: Customcolors.DECORATION_BLACK,
+                            //         fontFamily: 'Poppins-Bold'),
+                            //     textAlign: TextAlign.center,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 10.h,
+                            // ),
                             CustomSizedBox(
                                 height: keyboardsize >= 343 ? 10.h : 15.h),
                             // CustomTextFormField(

@@ -35,6 +35,7 @@ class Customcolors {
 
  static const Color addressColor = Color(0xFF818181);//
  static const Color darkpinkColor = Color(0xFF583081);//
+ //static const Color buttonColor = Color(0xFF5B2E90);//
 
   static const Color POSTALCODE_COLOR = Color(0xff49454F);
 

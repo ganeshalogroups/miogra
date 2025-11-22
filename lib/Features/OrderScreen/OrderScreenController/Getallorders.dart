@@ -139,9 +139,12 @@ class _GetallorderlistTabState extends State<GetallorderlistTab> {
 
                 Get.to(
                     Orderstatus(
+                      
                       platformfee: platformfee,
                       packagingCharge: orders['amountDetails']
                           ['packingCharges'],
+                        commission:  orders['amountDetails']
+                          ['commissionAmount'],  
                       km: orders['totalKms'],
                       timeinmins: orders['tripDetails'] != null &&
                               orders['tripDetails']["tripTime"] != null
@@ -202,12 +205,14 @@ class _GetallorderlistTabState extends State<GetallorderlistTab> {
                               .toString(),
                       status: orders['orderStatus'],
                       orderdetails: orders['ordersDetails'],
+                      
                       subAdminid: orders['subAdminId'],
                       delivermanid: orders['assignedToId'] ?? "",
                       ordergetid: orders['_id'],
                       couponType: orders['amountDetails']['couponType'] ?? "",
                       deliverymanimg: deliverymanimg,
                       deliverymanname: deliverymanname,
+                      
                     ),
                     transition: Transition.leftToRight);
               },

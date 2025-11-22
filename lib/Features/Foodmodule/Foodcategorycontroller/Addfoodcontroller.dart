@@ -179,11 +179,11 @@ class Foodcartcontroller extends GetxController {
   dynamic getrestaurantCommission;
   //var getfoodcartloading = false.obs;
 
-  Future restaurantCommission({required String vendorId}) async {
+  Future restaurantCommission() async {
     try {
     //  getfoodcartloading(true);
       var response = await http.get(
-        Uri.parse("${API.getrestaurantCommission}commission?status=1&vendorId=$vendorId"),
+        Uri.parse("${API.getrestaurantCommission}commission?status=1&vendorId"),
         headers: API().headers,
       );
 
@@ -191,7 +191,7 @@ class Foodcartcontroller extends GetxController {
       if (response.statusCode == 200 ||
           response.statusCode == 201 ||
           response.statusCode == 202) {
-        print("RestaurantCommission  ${API.getrestaurantCommission}commission?status=1&vendorId=$vendorId");
+        print("RestaurantCommission  ${API.getrestaurantCommission}commission?status=1&vendorId");
         var result = jsonDecode(response.body);
       getrestaurantCommission = result["data"];
 

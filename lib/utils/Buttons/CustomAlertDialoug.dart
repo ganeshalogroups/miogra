@@ -44,7 +44,7 @@ class CustomLogoutDialog extends StatelessWidget {
             height: 44,
             width: 100,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(5),
               border: Border.all(color: Customcolors.DECORATION_GREY),
             ),
             child: const Center(
@@ -56,7 +56,7 @@ class CustomLogoutDialog extends StatelessWidget {
           ),
         ),
         CustomButton(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(5),
           width: 100,
           onPressed: onConfirm,
           child: Text(

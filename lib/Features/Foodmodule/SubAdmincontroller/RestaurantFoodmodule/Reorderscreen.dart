@@ -1616,7 +1616,7 @@ if (redirect.redirectLoadingDetails["data"] != null) {
                                               if (coupon.isCouponApplied) {
                                                 ordercreate
                                                     .createOrderList( 
-                                                     // commision: 20,
+                                                     orderCommision: 0,
                                                       // commision: productviewprovider.restaurantDetails["categoryList"]["foods"]["commission"],
                                                     cartIdList: cartIdList,
                                                         context: context,
@@ -1661,7 +1661,7 @@ if (redirect.redirectLoadingDetails["data"] != null) {
                                                 });
                                               } else {
                                                 ordercreate.createOrderList(
-                                                 //  commision: 20,
+                                                  orderCommision: 0,
                                                   // commision: productviewprovider.restaurantDetails["categoryList"]["foods"]["commission"],
                                                     cartIdList: cartIdList,
                                                         context: context,

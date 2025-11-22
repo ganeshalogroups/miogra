@@ -5,6 +5,8 @@ import 'package:testing/Features/Authscreen/AuthController/Logincontroller.dart'
 import 'package:testing/Features/Authscreen/AuthController/Registercontroller.dart';
 import 'package:testing/Features/Authscreen/GoogleSignin/GoogleSignInApi.dart';
 import 'package:testing/Features/Authscreen/Loginscreen.dart';
+import 'package:testing/Features/Homepage/Profile_Orders/Commoncontroller/Redirectcontroller.dart';
+import 'package:testing/Features/Homepage/profile.dart';
 import 'package:testing/utils/Buttons/CustomButton.dart';
 import 'package:testing/utils/Buttons/CustomContainer.dart';
 import 'package:testing/utils/Buttons/CustomTextstyle.dart';
@@ -36,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController mobileNumber    = TextEditingController();
   TextEditingController emailController = TextEditingController();
   LoginscreenController logincon = Get.put(LoginscreenController());
-
+RedirectController redirect = Get.put(RedirectController());
 
   RegisterscreenController registerscreenController =Get.put(RegisterscreenController());
   final formkey = GlobalKey<FormState>();
@@ -559,10 +561,22 @@ void initState() {
                     });
                   },
                 ),
-                const Expanded(
-                  child: Text(
-                    "I agree to the Terms & Conditions",
-                    style: TextStyle(fontSize: 16),
+             Expanded(
+                  child: InkWell(
+                    onTap: () {
+                       for (var item
+                                in redirect.redirectLoadingDetails["data"]) {
+                              if (item["key"] == "termsandservice") {
+                                launchwebUrl(context, item["value"]);
+
+                                break; // Exit loop once the "whatsappLink" is found and launched
+                              }
+                            }
+                    },
+                    child: Text(
+                      "I agree to the Terms & Conditions",
+                      style: TextStyle(fontSize: 16,color: Colors.blue),
+                    ),
                   ),
                 ),
               ],
